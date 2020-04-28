@@ -1,10 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<meta name="viewport"
+				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
 </head>
 <body>
-	<h1>Hello, world!</h1>
+
+	<button id="request-btn">Login</button>
+	<button id="request-btn2">Get Posts</button>
+
+	<script>
+		
+		let token = '';
+
+		function sendRequest() {
+			const URL = '/login';
+			const METHOD = 'POST';
+			const DATA = {user: 'Ivan', password: 'pass'};
+
+			const xhr = new XMLHttpRequest();
+
+			xhr.open(METHOD, URL);
+
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.send(JSON.stringify(DATA));
+
+			xhr.onload = (result) => {
+				if (result.target.status === 200) {
+					token = JSON.parse(result.target.response).token;
+					console.log(token);
+				}
+			};
+		}
+
+		function sendRequest2() {
+			const URL = '/posts';
+			const METHOD = 'GET';
+
+			const xhr = new XMLHttpRequest();
+
+			xhr.open(METHOD, URL);
+			
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.setRequestHeader('auth-token', token);
+			xhr.send();
+
+			xhr.onload = (result) => {
+				if (result.target.status === 200) {
+					console.log(result.target.response);
+					console.log('successful');
+				}
+			};
+		}
+
+		document.querySelector('#request-btn').addEventListener('click', sendRequest);
+		document.querySelector('#request-btn2').addEventListener('click', sendRequest2);
+	</script>
+
+
 </body>
 </html>
