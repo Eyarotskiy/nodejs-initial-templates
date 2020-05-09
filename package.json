@@ -13,10 +13,11 @@
 	"author": "Yevhenii Yarotskyi",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/express": "^4.17.6",
 		"nodemon": "^1.14.6"
 	},
 	"dependencies": {
 		"concurrently": "^3.5.1",
-		"express": "^4.16.2"
+		"express": "^4.17.1"
 	}
 }

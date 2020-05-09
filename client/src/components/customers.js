@@ -1,35 +1,26 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import './customers.css';
 
-class Customers extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			customers: []
-		};
-	}
+const Customers = () => {
+	useEffect(() => {
+		getCustomers();
+	}, []);
 
-	componentDidMount() {
-		this.getCustomers();
-	}
-
-	async getCustomers() {
+	const getCustomers = async () => {
 		try {
 			const customers = await axios.get('/api/customers');
-			console.log(customers);
+			console.log(customers.data);
 		} catch (e) {
 			console.log(e);
 		}
-	}
+	};
 
-	render() {
-		return (
-			<div>
-				<h2>Customers</h2>
-			</div>
-		);
-	}
-}
+	return (
+		<div>
+			<h2>Customers</h2>
+		</div>
+	);
+};
 
 export default Customers;
