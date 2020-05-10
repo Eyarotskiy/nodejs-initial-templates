@@ -4,8 +4,8 @@ const appDir = path.dirname(require.main.filename);
 
 class Api {
 	static initApiRequests(app) {
-		app.get('/*', Api.handleRootRequest);
 		app.get('/api/customers', Api.handleCustomersRequest);
+		app.get('/*', Api.handleRootRequest);
 	}
 
 	static async handleRootRequest(req, res) {
