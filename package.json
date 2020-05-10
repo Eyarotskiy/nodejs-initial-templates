@@ -9,6 +9,7 @@
 		"server": "cd server && nodemon app.js",
 		"client": "npm start --prefix client",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"deploy": "git push heroku master",
 		"heroku-postbuild": "cd client && npm install && npm run build"
 	},
 	"author": "Yevhenii Yarotskyi",

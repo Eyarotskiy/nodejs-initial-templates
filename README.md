@@ -16,6 +16,8 @@
 
 ## Deployment (Heroku)
 
+  - Run **heroku create** inside app root to connect our app to heroku.
+  - Run **npm run deploy** to deploy master branch to heroku changes.
 
 ## Webstorm (Intellij) IDE settings
 
