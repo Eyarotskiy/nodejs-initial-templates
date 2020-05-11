@@ -16,9 +16,6 @@ class App {
 		this.initMiddleware();
 		Api.initApiRequests(app);
 		this.createPort();
-
-		const menu = {name: 'Orlov1'};
-		DB.saveMenu(menu);
 	}
 
 	initMiddleware() {

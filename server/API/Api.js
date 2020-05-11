@@ -1,11 +1,24 @@
 const path = require('path');
+const DB = require('../database/DB');
 
 const appDir = path.dirname(require.main.filename);
 
 class Api {
 	static initApiRequests(app) {
 		app.get('/api/customers', Api.handleCustomersRequest);
+		app.post('/api/menu/save', Api.handleMenuSaveRequest);
 		app.get('/*', Api.handleRootRequest);
+	}
+
+	static async handleMenuSaveRequest(req, res) {
+		try {
+			const menu = {name: 'Orlov1'};
+			DB.saveMenu(menu);
+
+			res.send('menu saved successfully!');
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	static async handleRootRequest(req, res) {

@@ -1,18 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import Customers from './components/customers';
+import axios from "axios";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Node + React template</h1>
-        </header>
-        <Customers />
-      </div>
-    );
-  }
-}
+const App = () => {
+  const saveMenu = async () => {
+    try {
+      const response = await axios.post('/api/menu/save');
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
+    <div className="App">
+      <button className="btn" onClick={saveMenu}>Save Menu</button>
+      <Customers />
+    </div>
+  );
+};
 
 export default App;
