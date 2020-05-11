@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const models = require('./models');
-const uri = process.env.MONGO_URI;
+const uri = process.env.MONGODB_URI_LOCAL || process.env.MONGODB_URI;
 
 class DB {
 	static async connect() {

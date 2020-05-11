@@ -19,10 +19,10 @@
 ### App Configuration
 
   - Run **heroku create** inside app root (in console) to connect our app to heroku.
-  - Create new DB on **mongodb.com** and copy connection URL.
-  - Create **.env** file inside **server** folder and add there variable:
-  `MONGO_URI = <URL_TO_MONGO_DB>`. 
-  - Open **dashboard.heroku.com** and add `MONGO_URI` variable in Settings with the link to the DB.
+  - Add mLab addon in Heroku dashboard and create DB. 
+  - Create **.env** file inside **server** folder and add there variables: <br/>
+  `MONGODB_URI_LOCAL = <URL_TO_MONGO_DB>` (DB to work locally) <br/>
+  `MONGODB_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>.
 
 ### Webstorm (Intellij) IDE settings
 
