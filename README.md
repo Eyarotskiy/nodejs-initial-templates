@@ -21,14 +21,15 @@
   - Run **heroku create** inside app root (in console) to connect our app to heroku.
   - Add mLab addon in Heroku dashboard and create DB. 
   - Create **.env** file inside **server** folder and add there variables: <br/>
-  `MONGODB_URI_LOCAL = <URL_TO_MONGO_DB>` (DB to work locally) <br/>
-  `MONGODB_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>.
+  `MONGO_URI_LOCAL = <URL_TO_MONGO_DB>` (DB to work locally) <br/>
+  `MONGO_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>.
   
  ### Heroku
   
   Heroku is a platform used for app hosting. List of available commands (via Terminal):
   - **heroku open** - opens heroku app URL in browser
   - **heroku local** - runs locally heroku app (to test locally how the app will work on prod)
+  - **heroku config** - shows the list of env variables (declared on heroku side)
   - **heroku domains** - shows the list of heroku domains used for the app 
 
 ### Webstorm (Intellij) IDE settings
