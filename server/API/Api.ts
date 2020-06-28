@@ -1,6 +1,6 @@
 import path from 'path';
 import { Application, Request, Response } from 'express';
-import { APP_DIRECTORY } from '../globals/constants';
+import { CLIENT_BUILD_DIRECTORY } from '../globals/constants';
 import {IMenu} from "../globals/types";
 import Database from "../database/Database";
 
@@ -24,7 +24,7 @@ export default class Api {
 
 	private static async handleRootRequest(req: Request, res:Response) {
 		try {
-			res.sendFile(path.join(APP_DIRECTORY, '../../client/build', 'index.html'));
+			res.sendFile(path.join(CLIENT_BUILD_DIRECTORY, 'index.html'));
 		} catch (error) {
 			console.log(error);
 		}
@@ -34,7 +34,7 @@ export default class Api {
 		try {
 			const customers = [
 				{id: 1, firstName: 'John', lastName: 'Doe'},
-				{id: 3, firstName: 'Mary1', lastName: 'Swanson'},
+				{id: 3, firstName: 'Mary2', lastName: 'Swanson'},
 			];
 
 			res.json(customers);

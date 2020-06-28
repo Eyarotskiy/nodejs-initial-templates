@@ -1,10 +1,9 @@
 require('dotenv').config();
 import compression from 'compression';
-import path from 'path';
 import express, { Application } from 'express';
 import Api from './API/Api';
 import Database from "./database/Database";
-import { APP_DIRECTORY } from './globals/constants';
+import { CLIENT_BUILD_DIRECTORY } from './globals/constants';
 
 const app: Application = express();
 
@@ -21,7 +20,7 @@ class App {
 	initMiddlewares() {
 		app.use(compression());
 		app.use(express.json());
-		app.use(express.static(path.join(APP_DIRECTORY, '../../client/build')));
+		app.use(express.static(CLIENT_BUILD_DIRECTORY));
 	}
 
 	createPort() {

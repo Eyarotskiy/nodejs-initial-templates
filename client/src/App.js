@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <button className="btn" onClick={saveMenu}>Save Menu</button>
+      <button className="btn" onClick={saveMenu}>Save Menu1</button>
       <Customers />
     </div>
   );
