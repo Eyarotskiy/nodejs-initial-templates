@@ -9,7 +9,7 @@
   
   - **npm install** - Installs dependencies for server 
   - **npm run client-install** - Installs dependencies for client 
-  - **npm run dev** - Starts the client & server with concurrently 
+  - **npm run app** - Starts the client & server with concurrently 
   - **npm run server** - Starts the Express server only 
   - **npm run client** - Starts the React client only 
   - **npm run deploy** - Deploys changes to Heroku app (see more details in the section below) 

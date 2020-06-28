@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-const models = require('./models');
-const uri = process.env.MONGO_URI_LOCAL || process.env.MONGO_URI;
+import mongoose from 'mongoose';
+import { model } from './model';
+import { MONGO_URI } from '../globals/constants';
+import { IMenu } from '../globals/types';
 
-class DB {
+export default class Database {
 	static async connect() {
 		try {
-			await mongoose.connect(uri, {
+			await mongoose.connect(MONGO_URI, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
 			});
@@ -16,14 +17,15 @@ class DB {
 		}
 	}
 
-	static async saveMenu(menu) {
-		let model = new models.menu();
-		await DB.save_(model, menu, 'menu');
+	static async saveMenu(menu: IMenu) {
+		let menuModel = new model.menu();
+
+		await Database.save(menuModel, menu, 'menu');
 	}
 
-	static async save_(model, data, label) {
+	private static async save(model: any, data: object, label: string) {
 		try {
-			model = DB.copyObjectParams_(model, data);
+			model = Database.copyObjectParams(model, data);
 			await model.save();
 			console.log(`${label} saved successfully!`);
 		} catch (error) {
@@ -32,12 +34,10 @@ class DB {
 		}
 	}
 
-	static copyObjectParams_(obj1, obj2) {
+	private static copyObjectParams(obj1: any, obj2: any) {
 		for (const param of Object.keys(obj2)) {
 			obj1[param] = obj2[param];
 		}
 		return obj1;
 	}
 }
-
-module.exports = DB;
