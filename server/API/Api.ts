@@ -24,7 +24,7 @@ export default class Api {
 
 	private static async handleRootRequest(req: Request, res:Response) {
 		try {
-			res.sendFile(path.join(APP_DIRECTORY, '../client/build', 'index.html'));
+			res.sendFile(path.join(APP_DIRECTORY, '../../client/build', 'index.html'));
 		} catch (error) {
 			console.log(error);
 		}

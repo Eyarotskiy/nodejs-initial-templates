@@ -21,7 +21,7 @@ class App {
 	initMiddlewares() {
 		app.use(compression());
 		app.use(express.json());
-		app.use(express.static(path.join(APP_DIRECTORY, '../client/build')));
+		app.use(express.static(path.join(APP_DIRECTORY, '../../client/build')));
 	}
 
 	createPort() {
