@@ -11,8 +11,9 @@
   - **npm run client-install** - Installs dependencies for client 
   - **npm run app** - Starts the client & server with concurrently 
   - **npm run server** - Starts the Express server only 
+  - **npm run server:build** - Builds server files (from Typescript to Javascript)  
   - **npm run client** - Starts the React client only 
-  - **npm run deploy** - Deploys changes to Heroku app (see more details in the section below) 
+  - **npm run deploy** - Deploys changes to Heroku app (run server:build and commit changes to master beforehand) 
    
 **Server runs on http://localhost:5000 and client on http://localhost:3000**
 

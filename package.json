@@ -10,7 +10,7 @@
 		"server:build": "tsc -p .",
 		"client": "npm start --prefix client",
 		"app": "concurrently \"npm run server\" \"npm run client\"",
-		"deploy": "npm run server:build && git push heroku master",
+		"deploy": "git push heroku master",
 		"heroku-postbuild": "cd client && npm install && npm run build"
 	},
 	"author": "Yevhenii Yarotskyi",
