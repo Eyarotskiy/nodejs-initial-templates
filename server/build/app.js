@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 var compression_1 = __importDefault(require("compression"));
-var path_1 = __importDefault(require("path"));
 var express_1 = __importDefault(require("express"));
 var Api_1 = __importDefault(require("./API/Api"));
 var Database_1 = __importDefault(require("./database/Database"));
@@ -22,7 +21,7 @@ var App = /** @class */ (function () {
     App.prototype.initMiddlewares = function () {
         app.use(compression_1.default());
         app.use(express_1.default.json());
-        app.use(express_1.default.static(path_1.default.join(constants_1.APP_DIRECTORY, '../../client/build')));
+        app.use(express_1.default.static(constants_1.CLIENT_BUILD_DIRECTORY));
     };
     App.prototype.createPort = function () {
         var _this = this;

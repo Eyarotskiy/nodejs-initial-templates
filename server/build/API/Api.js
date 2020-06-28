@@ -76,7 +76,7 @@ var Api = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 try {
-                    res.sendFile(path_1.default.join(constants_1.APP_DIRECTORY, '../../client/build', 'index.html'));
+                    res.sendFile(path_1.default.join(constants_1.CLIENT_BUILD_DIRECTORY, 'index.html'));
                 }
                 catch (error) {
                     console.log(error);
@@ -92,7 +92,7 @@ var Api = /** @class */ (function () {
                 try {
                     customers = [
                         { id: 1, firstName: 'John', lastName: 'Doe' },
-                        { id: 3, firstName: 'Mary1', lastName: 'Swanson' },
+                        { id: 3, firstName: 'Mary2', lastName: 'Swanson' },
                     ];
                     res.json(customers);
                 }
