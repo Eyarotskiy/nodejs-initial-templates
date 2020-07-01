@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, {Document} from 'mongoose';
 import { model } from './model';
 import { MONGO_URI } from '../globals/constants';
-import { IMenu } from '../globals/types';
 
 export default class Database {
 	static async connect() {
@@ -9,6 +8,7 @@ export default class Database {
 			await mongoose.connect(MONGO_URI, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
+				useFindAndModify: false,
 			});
 			console.log('Connection to database established!');
 		} catch (error) {
@@ -17,27 +17,37 @@ export default class Database {
 		}
 	}
 
-	static async saveMenu(menu: IMenu) {
-		let menuModel = new model.menu();
+	static async saveDish(dishName: string) {
+		const menuModel: any = new model.menu();
+		menuModel.name = dishName;
 
-		await Database.save(menuModel, menu, 'menu');
+		return menuModel.save();
 	}
 
-	private static async save(model: any, data: object, label: string) {
+	static async updateDish(oldDishName: string, newDishName: string): Promise<Document|null> {
 		try {
-			model = Database.copyObjectParams(model, data);
-			await model.save();
-			console.log(`${label} saved successfully!`);
-		} catch (error) {
-			console.log(`Couldn't save menu:`);
-			console.log(error);
+			const menuModel = model.menu;
+			const filter = {name: oldDishName};
+			const update = {$set: {name: newDishName}};
+
+			return menuModel.findOneAndUpdate(filter, update, {new: true});
+		} catch (e) {
+			throw new Error(e);
 		}
 	}
 
-	private static copyObjectParams(obj1: any, obj2: any) {
-		for (const param of Object.keys(obj2)) {
-			obj1[param] = obj2[param];
+	static async deleteDish(dishName: string): Promise<Document|null> {
+		try {
+			const menuModel = model.menu;
+			const filter = {name: dishName};
+
+			return menuModel.findOneAndRemove(filter);
+		} catch (e) {
+			throw new Error(e);
 		}
-		return obj1;
+	}
+
+	static async getMenu(): Promise<Document[]> {
+		return mongoose.model('menus').find();
 	}
 }

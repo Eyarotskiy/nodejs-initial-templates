@@ -1,8 +1,5 @@
-export interface IMenu {
-	name: string,
-}
+export type Menu = IDish[];
 
 export interface IDish {
-	index: number,
 	name: string,
 }

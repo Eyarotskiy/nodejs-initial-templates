@@ -1,0 +1,45 @@
+.App {
+  min-height: 100vh;
+  padding: 50px 15% 20px 15%;
+  background:
+    linear-gradient(90deg, #7E898F 0%, #636C75 100%),
+    radial-gradient(at top, rgba(255, 255, 255, 0.50) 0%, rgba(0, 0, 0, 0.55) 100%),
+    radial-gradient(at top, rgba(255, 255, 255, 0.50) 0%, rgba(0, 0, 0, 0.08) 63%);
+  background-blend-mode: multiply, screen;
+}
+
+.app-wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.form-container {
+  text-align: center;
+}
+
+.form-input {
+  display: block;
+  width: 250px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border: 2px solid transparent;
+}
+
+.form-input:focus {
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+.form-btn {
+  border: 1px solid #000;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  background: linear-gradient(#3e60c2,#7d88ff);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  outline: none;
+  padding: 10px 20px;
+}

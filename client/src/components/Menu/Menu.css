@@ -1,0 +1,30 @@
+.menu-title {
+  margin-top: 60px;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  text-align: center;
+}
+
+.menu-table {
+  background-color: #eee;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.menu-table th {
+  padding: 10px;
+  border-bottom: 1px solid #7c7c7c;
+}
+
+.menu-table th:nth-child(1),
+.menu-table tr td:nth-child(1) {
+  border-right: 1px solid #7c7c7c;
+}
+
+.menu-table td {
+  padding: 5px 40px;
+}
+
+.menu-table tr:last-child td {
+  padding-bottom: 10px;
+}
