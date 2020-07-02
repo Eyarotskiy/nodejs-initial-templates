@@ -3,6 +3,8 @@ import { model } from './model';
 import { MONGO_URI } from '../globals/constants';
 
 export default class Database {
+	static menuModel = model.menu;
+
 	static async connect() {
 		try {
 			await mongoose.connect(MONGO_URI, {
@@ -26,11 +28,10 @@ export default class Database {
 
 	static async updateDish(oldDishName: string, newDishName: string): Promise<Document|null> {
 		try {
-			const menuModel = model.menu;
 			const filter = {name: oldDishName};
 			const update = {$set: {name: newDishName}};
 
-			return menuModel.findOneAndUpdate(filter, update, {new: true});
+			return Database.menuModel.findOneAndUpdate(filter, update, {new: true});
 		} catch (e) {
 			throw new Error(e);
 		}
@@ -38,16 +39,15 @@ export default class Database {
 
 	static async deleteDish(dishName: string): Promise<Document|null> {
 		try {
-			const menuModel = model.menu;
 			const filter = {name: dishName};
 
-			return menuModel.findOneAndRemove(filter);
+			return Database.menuModel.findOneAndRemove(filter);
 		} catch (e) {
 			throw new Error(e);
 		}
 	}
 
 	static async getMenu(): Promise<Document[]> {
-		return mongoose.model('menus').find();
+		return Database.menuModel.find();
 	}
 }

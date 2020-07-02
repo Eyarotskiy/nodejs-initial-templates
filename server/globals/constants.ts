@@ -11,3 +11,9 @@ export const CLIENT_BUILD_DIRECTORY: string =
 	process.env.NODE_ENV === 'local' ?
 		path.join(APP_DIRECTORY, '../client/build') :
 		path.join(APP_DIRECTORY, '../../client/build');
+
+export enum SuccessMessage {
+	DISH_REMOVE = 'Dish was removed successfully',
+	DISH_SAVE = 'Dish was saved successfully',
+	DISH_UPDATE = 'Dish was updated successfully',
+}

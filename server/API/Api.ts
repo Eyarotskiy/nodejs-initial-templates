@@ -1,7 +1,8 @@
 import path from 'path';
 import { Application, Request, Response } from 'express';
-import { CLIENT_BUILD_DIRECTORY } from '../globals/constants';
+import { CLIENT_BUILD_DIRECTORY, SuccessMessage } from '../globals/constants';
 import Database from "../database/Database";
+import {IApiResponse} from "../globals/types";
 
 export default class Api {
 	static initApiRequests(app: Application) {
@@ -12,14 +13,26 @@ export default class Api {
 		app.get('/*', Api.handleRootRequest);
 	}
 
+	private static returnSuccess(res: Response, message: string, data: object|null) {
+		const code = 200;
+		const response: IApiResponse = {code, message, data};
+
+		res.status(code).send(response);
+	}
+
+	private static returnError(res: Response, code: number, message: string) {
+		const response: IApiResponse = {code, message};
+
+		res.status(code).send(response);
+	}
+
 	private static async handleDishSaveRequest(req: Request, res:Response) {
 		try {
 			const {dishName} = req.body;
-
 			const savedDish = await Database.saveDish(dishName);
-			res.send(savedDish);
+			Api.returnSuccess(res, SuccessMessage.DISH_SAVE, savedDish);
 		} catch (error) {
-			console.log(error);
+			Api.returnError(res, 400, error)
 		}
 	}
 
@@ -28,9 +41,9 @@ export default class Api {
 			const {oldDishName} = req.body;
 			const {newDishName} = req.body;
 			const updatedDish = await Database.updateDish(oldDishName, newDishName);
-			res.send({data: updatedDish})
+			Api.returnSuccess(res, SuccessMessage.DISH_UPDATE, updatedDish);
 		} catch (error) {
-			console.log(error);
+			Api.returnError(res, 400, error);
 		}
 	}
 
@@ -38,20 +51,18 @@ export default class Api {
 		try {
 			const {dishName} = req.body;
 			const deletedDish = await Database.deleteDish(dishName);
-			res.send(deletedDish)
+			Api.returnSuccess(res, SuccessMessage.DISH_REMOVE, deletedDish);
 		} catch (error) {
-			console.log(error);
+			Api.returnError(res, 400, error);
 		}
 	}
 
 	private static async handleMenuGetRequest(req: Request, res:Response) {
 		try {
 			const menu = await Database.getMenu();
-
 			res.json(menu);
 		} catch (error) {
-			console.log(error);
-			res.status(400).send('error');
+			Api.returnError(res, 400, error);
 		}
 	}
 
