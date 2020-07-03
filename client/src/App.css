@@ -8,10 +8,11 @@
   background-blend-mode: multiply, screen;
 }
 
-.app-wrapper {
+.form-wrapper {
   align-items: center;
   display: flex;
   justify-content: space-around;
+  margin-top: 50px;
 }
 
 .form-container {

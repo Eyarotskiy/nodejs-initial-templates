@@ -5,7 +5,6 @@ import {formatDate} from "../../common/utils";
 
 const Menu = (props: MenuProps)  => {return (
 		<div className="Menu">
-			<h2 className="menu-title">Menu</h2>
 			<table className="menu-table">
 				<thead>
 				<tr>

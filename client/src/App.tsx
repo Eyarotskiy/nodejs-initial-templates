@@ -82,7 +82,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="app-wrapper">
+      <h2 className="title">CRUD operations</h2>
+      <Menu menu={menu} />
+      <div className="form-wrapper">
         <div className="form-container">
           <input type="text" placeholder="Dish name"
                  className="form-input"
@@ -109,7 +111,6 @@ const App = () => {
           <button className="btn form-btn" onClick={deleteDish}>Delete Dish</button>
         </div>
       </div>
-      <Menu menu={menu} />
     </div>
   );
 };
