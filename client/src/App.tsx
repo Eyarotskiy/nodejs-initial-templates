@@ -10,19 +10,19 @@ const App = () => {
   const [dishNewUpdateName, changeDishNewUpdateName] = useState('');
   const [menu, modifyMenu] = useState([]);
 
-  const handleDishCreateNameChange = (e) => {
+  const handleDishCreateNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changeDishCreateName(e.target.value);
   };
 
-  const handleDishDeleteNameChange = (e) => {
+  const handleDishDeleteNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changeDishDeleteName(e.target.value);
   };
 
-  const handleDishOldUpdateNameChange = (e) => {
+  const handleDishOldUpdateNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changeDishOldUpdateName(e.target.value);
   };
 
-  const handleDishNewUpdateNameChange = (e) => {
+  const handleDishNewUpdateNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     changeDishNewUpdateName(e.target.value);
   };
 

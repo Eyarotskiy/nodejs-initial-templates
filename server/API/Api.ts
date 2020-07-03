@@ -1,8 +1,8 @@
 import path from 'path';
 import { Application, Request, Response } from 'express';
-import { CLIENT_BUILD_DIRECTORY, SuccessMessage } from '../globals/constants';
+import { CLIENT_BUILD_DIRECTORY, SuccessMessage } from '../common/constants';
 import Database from "../database/Database";
-import {IApiResponse} from "../globals/types";
+import {IApiResponse} from "../common/types";
 
 export default class Api {
 	static initApiRequests(app: Application) {

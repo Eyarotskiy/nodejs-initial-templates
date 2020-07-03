@@ -3,7 +3,7 @@ import compression from 'compression';
 import express, { Application } from 'express';
 import Api from './API/Api';
 import Database from "./database/Database";
-import { CLIENT_BUILD_DIRECTORY } from './globals/constants';
+import { CLIENT_BUILD_DIRECTORY } from './common/constants';
 
 const app: Application = express();
 

@@ -1,6 +1,6 @@
 import mongoose, {Document} from 'mongoose';
 import { model } from './model';
-import { MONGO_URI } from '../globals/constants';
+import { MONGO_URI } from '../common/constants';
 
 export default class Database {
 	static menuModel = model.menu;

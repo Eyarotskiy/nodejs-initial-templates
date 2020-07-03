@@ -1,4 +1,6 @@
-export type Menu = IDish[];
+export type MenuProps = {
+	menu: Array<IDish>,
+};
 
 export interface IApiResponse {
 	code: number,
@@ -7,5 +9,6 @@ export interface IApiResponse {
 }
 
 export interface IDish {
+	_id: string,
 	name: string,
 }
