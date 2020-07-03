@@ -16,8 +16,8 @@
   border-bottom: 1px solid #7c7c7c;
 }
 
-.menu-table th:nth-child(1),
-.menu-table tr td:nth-child(1) {
+.menu-table th,
+.menu-table td {
   border-right: 1px solid #7c7c7c;
 }
 

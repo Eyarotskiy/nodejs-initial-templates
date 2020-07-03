@@ -8,5 +8,6 @@ export interface IApiResponse {
 
 export interface IDish {
 	_id: string,
+	creation_date: Date,
 	name: string,
 }

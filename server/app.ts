@@ -17,13 +17,13 @@ class App {
 		this.createPort();
 	}
 
-	initMiddlewares() {
+	initMiddlewares(): void {
 		app.use(compression());
 		app.use(express.json());
 		app.use(express.static(CLIENT_BUILD_DIRECTORY));
 	}
 
-	createPort() {
+	createPort(): void {
 		app.listen(this.port, () => {
 			console.log(`Server running on port ${this.port}`);
 		});

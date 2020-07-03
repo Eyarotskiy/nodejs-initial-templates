@@ -5,7 +5,7 @@ import { MONGO_URI } from '../common/constants';
 export default class Database {
 	static menuModel = model.menu;
 
-	static async connect() {
+	static async connect(): Promise<void> {
 		try {
 			await mongoose.connect(MONGO_URI, {
 				useNewUrlParser: true,
@@ -19,11 +19,15 @@ export default class Database {
 		}
 	}
 
-	static async saveDish(dishName: string) {
-		const menuModel: any = new model.menu();
-		menuModel.name = dishName;
+	static async saveDish(dishName: string): Promise<object|null> {
+		try {
+			const menuModel: any = new model.menu();
+			menuModel.name = dishName;
 
-		return menuModel.save();
+			return await menuModel.save();
+		} catch (e) {
+			throw new Error(e);
+		}
 	}
 
 	static async updateDish(oldDishName: string, newDishName: string): Promise<Document|null> {
@@ -32,7 +36,7 @@ export default class Database {
 			const update = {$set: {name: newDishName}};
 
 			return Database.menuModel.findOneAndUpdate(filter, update, {new: true});
-		} catch (e) {
+		} catch(e) {
 			throw new Error(e);
 		}
 	}
@@ -48,6 +52,10 @@ export default class Database {
 	}
 
 	static async getMenu(): Promise<Document[]> {
-		return Database.menuModel.find();
+		try {
+			return Database.menuModel.find();
+		} catch (e) {
+			throw new Error(e);
+		}
 	}
 }
