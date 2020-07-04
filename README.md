@@ -25,7 +25,7 @@
   `MONGO_URI_LOCAL = <URL_TO_MONGO_DB>` (DB to work locally) <br/>
   `MONGO_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>.
   
- ### Heroku
+### Heroku
   
   Heroku is a platform used for app hosting. List of available commands (via Terminal):
   - **heroku open** - opens heroku app URL in browser

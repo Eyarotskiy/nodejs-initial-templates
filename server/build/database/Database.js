@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose_1 = __importDefault(require("mongoose"));
 var model_1 = require("./model");
-var constants_1 = require("../globals/constants");
+var constants_1 = require("../common/constants");
 var Database = /** @class */ (function () {
     function Database() {
     }
@@ -55,6 +55,7 @@ var Database = /** @class */ (function () {
                         return [4 /*yield*/, mongoose_1.default.connect(constants_1.MONGO_URI, {
                                 useNewUrlParser: true,
                                 useUnifiedTopology: true,
+                                useFindAndModify: false,
                             })];
                     case 1:
                         _a.sent();
@@ -70,51 +71,70 @@ var Database = /** @class */ (function () {
             });
         });
     };
-    Database.saveMenu = function (menu) {
+    Database.saveDish = function (dishName) {
         return __awaiter(this, void 0, void 0, function () {
-            var menuModel;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        menuModel = new model_1.model.menu();
-                        return [4 /*yield*/, Database.save(menuModel, menu, 'menu')];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Database.save = function (model, data, label) {
-        return __awaiter(this, void 0, void 0, function () {
-            var error_2;
+            var menuModel, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        model = Database.copyObjectParams(model, data);
-                        return [4 /*yield*/, model.save()];
-                    case 1:
-                        _a.sent();
-                        console.log(label + " saved successfully!");
-                        return [3 /*break*/, 3];
+                        menuModel = new model_1.model.menu();
+                        menuModel.name = dishName;
+                        return [4 /*yield*/, menuModel.save()];
+                    case 1: return [2 /*return*/, _a.sent()];
                     case 2:
-                        error_2 = _a.sent();
-                        console.log("Couldn't save menu:");
-                        console.log(error_2);
-                        return [3 /*break*/, 3];
+                        e_1 = _a.sent();
+                        throw new Error(e_1);
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    Database.copyObjectParams = function (obj1, obj2) {
-        for (var _i = 0, _a = Object.keys(obj2); _i < _a.length; _i++) {
-            var param = _a[_i];
-            obj1[param] = obj2[param];
-        }
-        return obj1;
+    Database.updateDish = function (oldDishName, newDishName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var filter, update;
+            return __generator(this, function (_a) {
+                try {
+                    filter = { name: oldDishName };
+                    update = { $set: { name: newDishName } };
+                    return [2 /*return*/, Database.menuModel.findOneAndUpdate(filter, update, { new: true })];
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+                return [2 /*return*/];
+            });
+        });
     };
+    Database.deleteDish = function (dishName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var filter;
+            return __generator(this, function (_a) {
+                try {
+                    filter = { name: dishName };
+                    return [2 /*return*/, Database.menuModel.findOneAndRemove(filter)];
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    Database.getMenu = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    return [2 /*return*/, Database.menuModel.find()];
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    Database.menuModel = model_1.model.menu;
     return Database;
 }());
 exports.default = Database;

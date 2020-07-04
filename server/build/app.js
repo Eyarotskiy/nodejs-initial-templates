@@ -8,7 +8,7 @@ var compression_1 = __importDefault(require("compression"));
 var express_1 = __importDefault(require("express"));
 var Api_1 = __importDefault(require("./API/Api"));
 var Database_1 = __importDefault(require("./database/Database"));
-var constants_1 = require("./globals/constants");
+var constants_1 = require("./common/constants");
 var app = express_1.default();
 var App = /** @class */ (function () {
     function App() {

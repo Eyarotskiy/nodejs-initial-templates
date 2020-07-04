@@ -23,12 +23,11 @@ exports.model = void 0;
 var mongoose_1 = __importStar(require("mongoose"));
 var menu = new mongoose_1.Schema({
     name: String,
-});
-var dish = new mongoose_1.Schema({
-    index: Number,
-    name: String,
+    creation_date: {
+        type: Date,
+        default: Date.now,
+    },
 });
 exports.model = {
     menu: mongoose_1.default.model('menus', menu),
-    dish: mongoose_1.default.model('dishes', dish),
 };

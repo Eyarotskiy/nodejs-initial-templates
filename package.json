@@ -7,7 +7,7 @@
 		"client-install": "cd client && npm install",
 		"start": "cd server/build && node app.js",
 		"server": "cd server && nodemon --watch \"**/*.ts\" --exec \"ts-node\" app.ts",
-		"server:build": "tsc -p .",
+		"server:build": "tsc -p . --outDir server/build --sourceMap false --inlineSources false",
 		"client": "npm start --prefix client",
 		"app": "concurrently \"npm run server\" \"npm run client\"",
 		"deploy": "git push heroku master",
