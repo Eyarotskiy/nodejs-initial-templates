@@ -11,10 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.title {
-  margin: 30px 0;
-  color: #fff;
-  text-shadow: 1px 1px 1px #000;
-  text-align: center;
-}

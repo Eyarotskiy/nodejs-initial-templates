@@ -10,6 +10,7 @@ export default class Api {
 		app.post('/api/dish/save', Api.handleDishSaveRequest);
 		app.post('/api/dish/update', Api.handleDishUpdateRequest);
 		app.post('/api/dish/delete', Api.handleDishDeleteRequest);
+		app.post('/api/menu/clear', Api.handleMenuClearRequest);
 		app.get('/*', Api.handleRootRequest);
 	}
 
@@ -25,8 +26,7 @@ export default class Api {
 
 	private static async handleDishUpdateRequest(req: Request, res:Response): Promise<void> {
 		try {
-			const {oldDishName} = req.body;
-			const {newDishName} = req.body;
+			const {oldDishName, newDishName} = req.body;
 			const updatedDish = await Database.updateDish(oldDishName, newDishName);
 			Api.sendSuccess(res, SuccessMessage.DISH_UPDATE, updatedDish);
 		} catch (error) {
@@ -39,6 +39,15 @@ export default class Api {
 			const {dishName} = req.body;
 			const deletedDish = await Database.deleteDish(dishName);
 			Api.sendSuccess(res, SuccessMessage.DISH_REMOVE, deletedDish);
+		} catch (error) {
+			Api.sendError(res, 400, error);
+		}
+	}
+
+	private static async handleMenuClearRequest(req: Request, res:Response): Promise<void> {
+		try {
+			const result = await Database.clearMenu();
+			Api.sendSuccess(res, SuccessMessage.MENU_CLEAR, result);
 		} catch (error) {
 			Api.sendError(res, 400, error);
 		}
@@ -62,7 +71,7 @@ export default class Api {
 		}
 	}
 
-	private static sendSuccess(res: Response, message: string, data: object|null): void {
+	private static sendSuccess(res: Response, message: string, data: object|null = {}): void {
 		const code = 200;
 		const response: IApiResponse = {code, message, data};
 

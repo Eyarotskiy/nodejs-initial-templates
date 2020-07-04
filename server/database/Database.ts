@@ -51,6 +51,14 @@ export default class Database {
 		}
 	}
 
+	static async clearMenu(): Promise<any> {
+		try {
+			return Database.menuModel.deleteMany({});
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
 	static async getMenu(): Promise<Document[]> {
 		try {
 			return Database.menuModel.find();

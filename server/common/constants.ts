@@ -16,4 +16,5 @@ export enum SuccessMessage {
 	DISH_REMOVE = 'Dish was removed successfully',
 	DISH_SAVE = 'Dish was saved successfully',
 	DISH_UPDATE = 'Dish was updated successfully',
+	MENU_CLEAR = 'Menu was cleared successfully',
 }

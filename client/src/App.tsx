@@ -43,6 +43,15 @@ const App = () => {
     }
   };
 
+  const clearMenu = async () => {
+    try {
+      await axios.post('/api/menu/clear');
+      modifyMenu([]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const saveDish = async () => {
     try {
       const payload = {
@@ -82,8 +91,12 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="divider"></div>
       <h2 className="title">CRUD operations</h2>
       <Menu menu={menu} />
+      <div className="form-wrapper-single">
+        <button className="btn form-btn" onClick={clearMenu}>Clear Menu</button>
+      </div>
       <div className="form-wrapper">
         <div className="form-container">
           <input type="text" placeholder="Dish name"
