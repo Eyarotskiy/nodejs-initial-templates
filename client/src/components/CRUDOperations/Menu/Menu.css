@@ -21,3 +21,7 @@
 .menu-table tr:last-child td {
   padding-bottom: 10px;
 }
+
+.menu-table tbody > tr {
+  background-color: #fff;
+}

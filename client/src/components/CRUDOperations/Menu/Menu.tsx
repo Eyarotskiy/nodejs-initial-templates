@@ -1,7 +1,7 @@
 import React from 'react';
 import './Menu.css';
-import {IDish, MenuProps} from "../../common/types";
-import {formatDate} from "../../common/utils";
+import {IDish, MenuProps} from '../../../common/types';
+import {formatDate} from '../../../common/utils';
 
 const Menu = (props: MenuProps)  => {return (
 		<div className="Menu">
