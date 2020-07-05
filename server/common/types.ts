@@ -3,6 +3,7 @@ export type Menu = Array<IDish>;
 export interface IApiResponse {
 	code: number,
 	message: string,
+	stack?: string,
 	data?: object|null,
 }
 

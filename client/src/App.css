@@ -1,24 +1,45 @@
 .App {
-  min-height: 100vh;
-  padding: 50px 15% 20px 15%;
   background:
     linear-gradient(90deg, #7E898F 0%, #636C75 100%),
     radial-gradient(at top, rgba(255, 255, 255, 0.50) 0%, rgba(0, 0, 0, 0.55) 100%),
     radial-gradient(at top, rgba(255, 255, 255, 0.50) 0%, rgba(0, 0, 0, 0.08) 63%);
   background-blend-mode: multiply, screen;
+  min-height: 100vh;
+  padding: 10px 15% 20px 15%;
 }
 
 .title {
-  font-size: 32px;
-  margin: 30px 0;
   color: #fff;
-  text-shadow: 1px 1px 1px #000;
+  font-size: 32px;
+  margin: 40px 0;
   text-align: center;
+  text-shadow: 1px 1px 1px #000;
 }
 
 .divider {
   background-color: #fff;
-  margin: 30px auto;
   height: 1px;
+  margin: 30px auto;
   width: 50%;
+}
+
+.btn {
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
+  padding: 10px 20px;
+  text-shadow: 1px 1px 1px #000;
+}
+
+.btn-blue {
+  background: linear-gradient(#3e60c2,#7d88ff);
+  color: #fff;
+}
+
+.btn-grey {
+  background: linear-gradient(#3e60c2,#7d88ff);
+  color: #fff;
 }

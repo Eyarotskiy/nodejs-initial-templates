@@ -1,0 +1,13 @@
+.FileUpload {
+  text-align: center;
+}
+
+.file-name {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.uploaded-img {
+  display: block;
+  margin: 20px auto;
+}

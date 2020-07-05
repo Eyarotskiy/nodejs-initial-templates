@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
 import CRUDOperations from "./components/CRUDOperations/CRUDOperations";
+import FileUpload from "./components/FileUpload/FileUpload";
 
 const App = () => {
   return (
     <div className="App">
-      <div className="divider"></div>
       <CRUDOperations />
+      <div className="divider"></div>
+      <FileUpload />
     </div>
   );
 };

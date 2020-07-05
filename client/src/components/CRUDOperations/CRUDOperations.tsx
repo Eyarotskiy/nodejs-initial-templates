@@ -94,7 +94,7 @@ const CRUDOperations = () => {
 			<h2 className="title">CRUD operations</h2>
 			<Menu menu={menu} />
 			<div className="form-wrapper-single">
-				<button className="btn form-btn" onClick={clearMenu}>Clear Menu</button>
+				<button className="btn btn-blue" onClick={clearMenu}>Clear menu</button>
 			</div>
 			<div className="form-wrapper">
 				<div className="form-container">
@@ -102,7 +102,7 @@ const CRUDOperations = () => {
 								 className="form-input"
 								 value={dishCreateName}
 								 onChange={handleDishCreateNameChange} />
-					<button className="btn form-btn" onClick={saveDish}>Save Dish</button>
+					<button className="btn btn-blue" onClick={saveDish}>Save dish</button>
 				</div>
 				<div className="form-container">
 					<input type="text" placeholder="Dish name"
@@ -113,14 +113,14 @@ const CRUDOperations = () => {
 								 className="form-input"
 								 value={dishNewUpdateName}
 								 onChange={handleDishNewUpdateNameChange} />
-					<button className="btn form-btn" onClick={updateDish}>Update Dish</button>
+					<button className="btn btn-blue" onClick={updateDish}>Update dish</button>
 				</div>
 				<div className="form-container">
 					<input type="text" placeholder="Dish name"
 								 className="form-input"
 								 value={dishDeleteName}
 								 onChange={handleDishDeleteNameChange} />
-					<button className="btn form-btn" onClick={deleteDish}>Delete Dish</button>
+					<button className="btn btn-blue" onClick={deleteDish}>Delete dish</button>
 				</div>
 			</div>
 		</div>
