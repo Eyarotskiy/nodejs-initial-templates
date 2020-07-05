@@ -1,7 +1,7 @@
 require('dotenv').config();
 import compression from 'compression';
 import express, { Application } from 'express';
-import Api from './API/Api';
+import API from './API/Api';
 import Database from './database/Database';
 import {CLIENT_BUILD_DIRECTORY, PORT, SERVER_STATIC_FILES_DIRECTORY} from './common/constants';
 const fileUpload = require('express-fileupload');
@@ -14,7 +14,7 @@ class App {
 	constructor() {
 		Database.connect();
 		this.initMiddlewares();
-		Api.initApiRequests(app);
+		API.initApiRequests(app);
 		this.createPort();
 	}
 
