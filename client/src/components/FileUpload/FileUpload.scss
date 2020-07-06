@@ -1,9 +1,11 @@
+@import "../../common/variables";
+
 .FileUpload {
   text-align: center;
 }
 
 .file-name {
-  color: #fff;
+  color: $text-white;
   text-decoration: underline;
 }
 

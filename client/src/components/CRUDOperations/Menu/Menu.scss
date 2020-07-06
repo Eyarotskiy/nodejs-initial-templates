@@ -1,17 +1,19 @@
+@import "../../../common/variables";
+
 .menu-table {
-  background-color: #eee;
+  background-color: $bg-grey;
   border-collapse: collapse;
   margin: 0 auto;
 }
 
 .menu-table th {
-  border-bottom: 1px solid #7c7c7c;
+  border-bottom: 1px solid $border-dark-grey;
   padding: 10px;
 }
 
 .menu-table th,
 .menu-table td {
-  border-right: 1px solid #7c7c7c;
+  border-right: 1px solid $border-dark-grey;
 }
 
 .menu-table td {
@@ -23,5 +25,5 @@
 }
 
 .menu-table tbody > tr {
-  background-color: #fff;
+  background-color: $bg-white;
 }

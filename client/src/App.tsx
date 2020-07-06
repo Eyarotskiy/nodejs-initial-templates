@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import CRUDOperations from "./components/CRUDOperations/CRUDOperations";
 import FileUpload from "./components/FileUpload/FileUpload";
 

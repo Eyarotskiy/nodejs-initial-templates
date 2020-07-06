@@ -1,3 +1,5 @@
+@import "./common/variables";
+
 .App {
   background:
     linear-gradient(90deg, #7E898F 0%, #636C75 100%),
@@ -9,37 +11,37 @@
 }
 
 .title {
-  color: #fff;
-  font-size: 32px;
+  color: $text-white;
+  font-size: $font-title;
   margin: 40px 0;
   text-align: center;
-  text-shadow: 1px 1px 1px #000;
+  text-shadow: $text-shadow;
 }
 
 .divider {
-  background-color: #fff;
+  background-color: $bg-white;
   height: 1px;
   margin: 30px auto;
   width: 50%;
 }
 
 .btn {
-  border: 1px solid #000;
+  border: 1px solid $border-black;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: $font-btn;
   font-weight: 700;
   outline: none;
   padding: 10px 20px;
-  text-shadow: 1px 1px 1px #000;
+  text-shadow: $text-shadow;
 }
 
 .btn-blue {
   background: linear-gradient(#3e60c2,#7d88ff);
-  color: #fff;
+  color: $text-white;
 }
 
 .btn-grey {
   background: linear-gradient(#cecece,#575757);
-  color: #fff;
+  color: $text-white;
 }

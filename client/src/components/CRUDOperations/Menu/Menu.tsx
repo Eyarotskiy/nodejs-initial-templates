@@ -1,5 +1,5 @@
 import React from 'react';
-import './Menu.css';
+import './Menu.scss';
 import {IDish, MenuProps} from '../../../common/types';
 import {formatDate} from '../../../common/utils';
 

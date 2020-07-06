@@ -1,7 +1,7 @@
 import Menu from "./Menu/Menu";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import './CRUDOperations.css';
+import './CRUDOperations.scss';
 
 const CRUDOperations = () => {
 	const [dishCreateName, changeDishCreateName] = useState('');
