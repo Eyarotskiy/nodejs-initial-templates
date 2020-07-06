@@ -1,8 +1,8 @@
 import path from 'path';
 import { Application, Request, Response } from 'express';
 import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
-import Database from "../database/Database";
-import {IApiResponse} from "../common/types";
+import Database from '../database/Database';
+import {IApiResponse} from '../common/types';
 import fs from 'fs';
 
 export default class API {

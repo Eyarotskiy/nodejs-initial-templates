@@ -1,7 +1,7 @@
-import Menu from "./Menu/Menu";
-import React, {useEffect, useState} from "react";
-import axios from "axios";
+import Menu from './Menu/Menu';
+import React, {useEffect, useState} from 'react';
 import './CRUDOperations.scss';
+import API from '../../API/API';
 
 const CRUDOperations = () => {
 	const [dishCreateName, changeDishCreateName] = useState('');
@@ -36,7 +36,7 @@ const CRUDOperations = () => {
 
 	const getMenu = async () => {
 		try {
-			const response = await axios.get('/api/menu/get');
+			const response = await API.getMenu();
 			modifyMenu(response.data);
 		} catch (e) {
 			console.log(e);
@@ -45,7 +45,7 @@ const CRUDOperations = () => {
 
 	const clearMenu = async () => {
 		try {
-			await axios.post('/api/menu/clear');
+			await API.clearMenu();
 			modifyMenu([]);
 		} catch (e) {
 			console.log(e);
@@ -57,7 +57,7 @@ const CRUDOperations = () => {
 			const payload = {
 				dishName: dishCreateName,
 			};
-			await axios.post('/api/dish/save', payload);
+			await API.saveDish(payload);
 			await getMenu();
 		} catch (e) {
 			console.log(e);
@@ -70,7 +70,7 @@ const CRUDOperations = () => {
 				oldDishName: dishOldUpdateName,
 				newDishName: dishNewUpdateName,
 			};
-			await axios.post('/api/dish/update', payload);
+			await API.updateDish(payload);
 			await getMenu();
 		} catch (e) {
 			console.log(e);
@@ -82,7 +82,7 @@ const CRUDOperations = () => {
 			const payload = {
 				dishName: dishDeleteName,
 			};
-			await axios.post('/api/dish/delete', payload);
+			await API.deleteDish(payload);
 			await getMenu();
 		} catch (e) {
 			console.log(e);
