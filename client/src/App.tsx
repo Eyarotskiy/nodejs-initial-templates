@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.scss';
-import CRUDOperations from "./components/CRUDOperations/CRUDOperations";
+import CrudOperations from "./components/CRUDOperations/CrudOperations";
 import FileUpload from "./components/FileUpload/FileUpload";
 
 const App = () => {
   return (
     <div className="App">
-      <CRUDOperations />
+      <CrudOperations />
       <div className="divider"></div>
       <FileUpload />
     </div>

@@ -5,24 +5,24 @@ import Database from '../database/Database';
 import {IApiResponse} from '../common/types';
 import fs from 'fs';
 
-export default class API {
+export default class Api {
 	static initApiRequests(app: Application) {
-		app.get('/api/menu/get', API.handleMenuGetRequest);
-		app.post('/api/dish/save', API.handleDishSaveRequest);
-		app.post('/api/dish/update', API.handleDishUpdateRequest);
-		app.post('/api/dish/delete', API.handleDishDeleteRequest);
-		app.post('/api/menu/clear', API.handleMenuClearRequest);
-		app.post('/file/upload', API.handleFileUploadRequest);
-		app.get('/*', API.handleRootRequest);
+		app.get('/api/menu/get', Api.handleMenuGetRequest);
+		app.post('/api/dish/save', Api.handleDishSaveRequest);
+		app.post('/api/dish/update', Api.handleDishUpdateRequest);
+		app.post('/api/dish/delete', Api.handleDishDeleteRequest);
+		app.post('/api/menu/clear', Api.handleMenuClearRequest);
+		app.post('/file/upload', Api.handleFileUploadRequest);
+		app.get('/*', Api.handleRootRequest);
 	}
 
 	private static async handleDishSaveRequest(req: Request, res:Response): Promise<void> {
 		try {
 			const {dishName} = req.body;
 			const savedDish = await Database.saveDish(dishName);
-			API.sendSuccess(res, savedDish);
+			Api.sendSuccess(res, savedDish);
 		} catch (error) {
-			API.sendError(res, 400, error)
+			Api.sendError(res, 400, error)
 		}
 	}
 
@@ -30,9 +30,9 @@ export default class API {
 		try {
 			const {oldDishName, newDishName} = req.body;
 			const updatedDish = await Database.updateDish(oldDishName, newDishName);
-			API.sendSuccess(res, updatedDish);
+			Api.sendSuccess(res, updatedDish);
 		} catch (error) {
-			API.sendError(res, 400, error);
+			Api.sendError(res, 400, error);
 		}
 	}
 
@@ -40,27 +40,27 @@ export default class API {
 		try {
 			const {dishName} = req.body;
 			const deletedDish = await Database.deleteDish(dishName);
-			API.sendSuccess(res, deletedDish);
+			Api.sendSuccess(res, deletedDish);
 		} catch (error) {
-			API.sendError(res, 400, error);
+			Api.sendError(res, 400, error);
 		}
 	}
 
 	private static async handleMenuClearRequest(req: Request, res:Response): Promise<void> {
 		try {
 			const result = await Database.clearMenu();
-			API.sendSuccess(res, result);
+			Api.sendSuccess(res, result);
 		} catch (error) {
-			API.sendError(res, 400, error);
+			Api.sendError(res, 400, error);
 		}
 	}
 
 	private static async handleMenuGetRequest(req: Request, res:Response): Promise<void> {
 		try {
 			const menu = await Database.getMenu();
-			API.sendSuccess(res, menu);
+			Api.sendSuccess(res, menu);
 		} catch (error) {
-			API.sendError(res, 400, error);
+			Api.sendError(res, 400, error);
 		}
 	}
 
@@ -75,9 +75,9 @@ export default class API {
 			const result = {
 				url: `${req.protocol}://${req.get('host')}/${file.name}`,
 			};
-			API.sendSuccess(res, result);
+			Api.sendSuccess(res, result);
 		} catch (error) {
-			API.sendError(res, 500, error);
+			Api.sendError(res, 500, error);
 		}
 	}
 
@@ -85,7 +85,7 @@ export default class API {
 		try {
 			res.sendFile(path.join(CLIENT_BUILD_DIRECTORY, 'index.html'));
 		} catch (error) {
-			API.sendError(res, 400, error);
+			Api.sendError(res, 400, error);
 		}
 	}
 
