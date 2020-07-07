@@ -23,6 +23,11 @@
   height: 1px;
   margin: 30px auto;
   width: 50%;
+
+  &.dashed {
+    background-color: transparent;
+    border-top: 1px dashed $border-white;
+  }
 }
 
 .btn {
@@ -43,5 +48,32 @@
 
 .btn-grey {
   background: linear-gradient(#cecece,#575757);
+  color: $text-white;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.nav a:not(:last-child) {
+  border-right: 1px solid $border-white;
+}
+
+.nav-link {
+  color: $text-nav;
+  font-size: $font-nav;
+  font-weight: 700;
+  padding: 10px 40px;
+  text-decoration: underline;
+  transition: 0.3s all ease;
+}
+
+.nav-link:hover {
+  background-color: $bg-dark-grey;
+}
+
+.text {
   color: $text-white;
 }
