@@ -1,10 +1,9 @@
-import Api from 'Api/Api';
-
 require('dotenv').config();
 import compression from 'compression';
 import express, { Application } from 'express';
-import Database from 'database/Database';
-import {CLIENT_BUILD_DIRECTORY, PORT, SERVER_STATIC_FILES_DIRECTORY} from 'common/constants';
+import Api from './Api/Api';
+import Database from './database/Database';
+import {CLIENT_BUILD_DIRECTORY, PORT, SERVER_STATIC_FILES_DIRECTORY} from './common/constants';
 const fileUpload = require('express-fileupload');
 
 const app: Application = express();

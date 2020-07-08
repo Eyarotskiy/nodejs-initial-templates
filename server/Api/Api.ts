@@ -1,9 +1,9 @@
 import path from 'path';
 import { Application, Request, Response } from 'express';
 import fs from 'fs';
-import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from 'common/constants';
-import Database from 'database/Database';
-import {IApiResponse} from 'common/types';
+import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
+import Database from '../database/Database';
+import {IApiResponse} from '../common/types';
 
 export default class Api {
 	static initApiRequests(app: Application) {
