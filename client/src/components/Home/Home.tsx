@@ -1,7 +1,7 @@
 import React from 'react';
-import CrudOperations from '../CRUDOperations/CrudOperations';
-import FileUpload from '../FileUpload/FileUpload';
 import './Home.scss';
+import CrudOperations from 'components/CrudOperations/CrudOperations';
+import FileUpload from 'components/FileUpload/FileUpload';
 
 const Home = () => {
 	return (

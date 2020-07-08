@@ -1,7 +1,7 @@
-import Menu from './Menu/Menu';
 import React, {useEffect, useState} from 'react';
 import './CrudOperations.scss';
-import Api from '../../Api/Api';
+import Api from 'Api/Api';
+import Menu from 'components/CrudOperations/Menu/Menu';
 
 const CrudOperations = () => {
 	const [dishCreateName, changeDishCreateName] = useState('');

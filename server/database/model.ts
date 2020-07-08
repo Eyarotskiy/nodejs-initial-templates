@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { Menu } from "../common/types";
+import {Menu} from 'common/types';
 
 const menu: Schema<Menu> = new Schema({
 	name: String,
