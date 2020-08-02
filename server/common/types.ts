@@ -12,3 +12,8 @@ export interface IDish {
 	creation_date: Date,
 	name: string,
 }
+
+export type DishUpdateData = {
+	oldDishName: string,
+	newDishName: string,
+}

@@ -4,6 +4,7 @@ import path from 'path';
 export const APP_DIRECTORY: string = path.dirname(require.main.filename);
 
 export const PORT: number = 5000;
+export const WEBSOCKET_PORT: number = 8000;
 
 //@ts-ignore
 export const MONGO_URI: string = process.env.MONGO_URI_LOCAL || process.env.MONGO_URI;

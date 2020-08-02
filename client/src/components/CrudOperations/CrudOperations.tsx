@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './CrudOperations.scss';
-import Api from 'Api/Api';
 import Menu from 'components/CrudOperations/Menu/Menu';
+import WebSocket from 'Api/WebSocket';
+const webSocket = new WebSocket();
 
 const CrudOperations = () => {
 	const [dishCreateName, changeDishCreateName] = useState('');
@@ -27,71 +28,32 @@ const CrudOperations = () => {
 	};
 
 	useEffect(() => {
-		async function getData() {
-			await getMenu();
-		}
-
-		getData();
+		webSocket.getMenu(modifyMenu)
 	}, []);
 
-	const getMenu = async () => {
-		try {
-			const response = await Api.getMenu();
-			modifyMenu(response.data);
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
-	const clearMenu = async () => {
-		try {
-			await Api.clearMenu();
-			modifyMenu([]);
-		} catch (e) {
-			console.log(e);
-		}
+	const clearMenu = () => {
+		webSocket.clearMenu();
 	};
 
 	const saveDish = async () => {
-		try {
-			const payload = {
-				dishName: dishCreateName,
-			};
-			await Api.saveDish(payload);
-			await getMenu();
-		} catch (e) {
-			console.log(e);
-		}
+		webSocket.saveDish(dishCreateName);
 	};
 
 	const updateDish = async () => {
-		try {
-			const payload = {
-				oldDishName: dishOldUpdateName,
-				newDishName: dishNewUpdateName,
-			};
-			await Api.updateDish(payload);
-			await getMenu();
-		} catch (e) {
-			console.log(e);
-		}
+		const payload = {
+			oldDishName: dishOldUpdateName,
+			newDishName: dishNewUpdateName,
+		};
+		webSocket.updateDish(payload);
 	};
 
 	const deleteDish = async () => {
-		try {
-			const payload = {
-				dishName: dishDeleteName,
-			};
-			await Api.deleteDish(payload);
-			await getMenu();
-		} catch (e) {
-			console.log(e);
-		}
+		webSocket.deleteDish(dishDeleteName)
 	};
 
 	return (
 		<div className="CRUDOperations">
-			<h2 className="title">CRUD operations</h2>
+			<h2 className="title">CRUD operations (on WebSockets)</h2>
 			<Menu menu={menu} />
 			<div className="form-wrapper-single">
 				<button className="btn btn-blue" onClick={clearMenu}>Clear menu</button>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import './App.scss';
-import About from './components/About/About';
-import Home from './components/Home/Home';
+import 'components/App/App.scss';
+import Home from 'components/Home/Home';
+import About from 'components/About/About';
 
 const App = () => {
   return (

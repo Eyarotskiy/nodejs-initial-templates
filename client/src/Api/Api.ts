@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {DishName, DishUpdateData} from '../common/types';
+import {DishName, DishUpdateData} from 'common/types';
 
 export default class Api {
 	static async getMenu(): Promise<AxiosResponse> {
