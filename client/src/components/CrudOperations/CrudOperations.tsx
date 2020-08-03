@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './CrudOperations.scss';
 import Menu from 'components/CrudOperations/Menu/Menu';
 import WebSocket from 'Api/WebSocket';
+import Api from 'Api/Api';
 const webSocket = new WebSocket();
 
 const CrudOperations = () => {
@@ -35,11 +36,11 @@ const CrudOperations = () => {
 		webSocket.clearMenu();
 	};
 
-	const saveDish = async () => {
+	const saveDish = () => {
 		webSocket.saveDish(dishCreateName);
 	};
 
-	const updateDish = async () => {
+	const updateDish = () => {
 		const payload = {
 			oldDishName: dishOldUpdateName,
 			newDishName: dishNewUpdateName,
@@ -47,8 +48,13 @@ const CrudOperations = () => {
 		webSocket.updateDish(payload);
 	};
 
-	const deleteDish = async () => {
+	const deleteDish = () => {
 		webSocket.deleteDish(dishDeleteName)
+	};
+
+	const getData = async () => {
+		const response: any = await Api.getData();
+		console.log(response.data);
 	};
 
 	return (
@@ -64,7 +70,9 @@ const CrudOperations = () => {
 								 className="form-input"
 								 value={dishCreateName}
 								 onChange={handleDishCreateNameChange} />
-					<button className="btn btn-blue" onClick={saveDish}>Save dish</button>
+					<button className="btn btn-blue" onClick={saveDish}>
+						Save dish
+					</button>
 				</div>
 				<div className="form-container">
 					<input type="text" placeholder="Dish name"
@@ -75,14 +83,25 @@ const CrudOperations = () => {
 								 className="form-input"
 								 value={dishNewUpdateName}
 								 onChange={handleDishNewUpdateNameChange} />
-					<button className="btn btn-blue" onClick={updateDish}>Update dish</button>
+					<button className="btn btn-blue" onClick={updateDish}>
+						Update dish
+					</button>
 				</div>
 				<div className="form-container">
 					<input type="text" placeholder="Dish name"
 								 className="form-input"
 								 value={dishDeleteName}
 								 onChange={handleDishDeleteNameChange} />
-					<button className="btn btn-blue" onClick={deleteDish}>Delete dish</button>
+					<button className="btn btn-blue" onClick={deleteDish}>
+						Delete dish
+					</button>
+				</div>
+			</div>
+			<div className="data-container">
+				<div className="form-container">
+					<button className="btn btn-blue" onClick={getData}>
+						Call external API request
+					</button>
 				</div>
 			</div>
 		</div>

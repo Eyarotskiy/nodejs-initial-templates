@@ -1,4 +1,5 @@
 import path from 'path';
+import axios from 'axios';
 import { Application, Request, Response } from 'express';
 import fs from 'fs';
 import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
@@ -12,6 +13,7 @@ export default class Api {
 		app.post('/api/dish/update', Api.handleDishUpdateRequest);
 		app.post('/api/dish/delete', Api.handleDishDeleteRequest);
 		app.post('/api/menu/clear', Api.handleMenuClearRequest);
+		app.get('/api/data/get', Api.handleDataGetRequest);
 		app.post('/file/upload', Api.handleFileUploadRequest);
 		app.get('/*', Api.handleRootRequest);
 	}
@@ -59,6 +61,15 @@ export default class Api {
 		try {
 			const menu = await Database.getMenu();
 			Api.sendSuccess(res, menu);
+		} catch (error) {
+			Api.sendError(res, 400, error);
+		}
+	}
+
+	private static async handleDataGetRequest(req: Request, res:Response): Promise<void> {
+		try {
+			const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+			Api.sendSuccess(res, response.data);
 		} catch (error) {
 			Api.sendError(res, 400, error);
 		}

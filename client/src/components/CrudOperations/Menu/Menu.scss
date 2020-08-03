@@ -1,29 +1,31 @@
 @import "../../../common/variables";
 
-.menu-table {
-  background-color: $bg-grey;
-  border-collapse: collapse;
-  margin: 0 auto;
-}
+.Menu {
+  .menu-table {
+    background-color: $bg-grey;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
 
-.menu-table th {
-  border-bottom: 1px solid $border-dark-grey;
-  padding: 10px;
-}
+  .menu-table th {
+    border-bottom: 1px solid $border-dark-grey;
+    padding: 10px;
+  }
 
-.menu-table th,
-.menu-table td {
-  border-right: 1px solid $border-dark-grey;
-}
+  .menu-table th,
+  .menu-table td {
+    border-right: 1px solid $border-dark-grey;
+  }
 
-.menu-table td {
-  padding: 5px 40px;
-}
+  .menu-table td {
+    padding: 5px 40px;
+  }
 
-.menu-table tr:last-child td {
-  padding-bottom: 10px;
-}
+  .menu-table tr:last-child td {
+    padding-bottom: 10px;
+  }
 
-.menu-table tbody > tr {
-  background-color: $bg-white;
+  .menu-table tbody > tr {
+    background-color: $bg-white;
+  }
 }

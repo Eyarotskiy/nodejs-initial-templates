@@ -1,32 +1,36 @@
 @import "../../common/variables";
 
-.form-wrapper-single {
-  padding-top: 20px;
-  text-align: center;
+.CRUDOperations {
+  .form-wrapper-single {
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .form-wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+  }
+
+  .form-container {
+    text-align: center;
+  }
+
+  .form-input {
+    border: 2px solid transparent;
+    display: block;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    width: 250px;
+  }
+
+  .form-input:focus {
+    border: 2px solid $border-grey;
+    outline: none;
+  }
+
+  .data-container {
+    margin-top: 40px;
+  }
 }
-
-.form-wrapper {
-  align-items: center;
-  display: flex;
-  justify-content: space-around;
-  margin-top: 50px;
-}
-
-.form-container {
-  text-align: center;
-}
-
-.form-input {
-  border: 2px solid transparent;
-  display: block;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  width: 250px;
-}
-
-.form-input:focus {
-  border: 2px solid $border-grey;
-  outline: none;
-}
-
-

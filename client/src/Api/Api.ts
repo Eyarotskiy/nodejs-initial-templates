@@ -21,4 +21,8 @@ export default class Api {
 	static async deleteDish(payload: DishName): Promise<AxiosResponse> {
 		return axios.post('/api/dish/delete', payload);
 	}
+
+	static async getData(): Promise<AxiosResponse> {
+		return axios.get('/api/data/get');
+	}
 }
