@@ -26,7 +26,8 @@
   - Create **.env** file inside **server** folder and add there variables: <br/>
   `MONGO_URI_LOCAL = <URL_TO_MONGO_DB>` (DB to work locally) <br/>
   `MONGO_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>.
-  - Substitute the correct openSocket link (for localhost / prod) inside client WebSocket.ts file.
+  - Paste the correct openSocket link (for localhost / prod) inside client WebSocket.ts file.
+  - Paste correct Google Analytics ID inside ReactGA.initialize().
   
 ### Heroku
   
