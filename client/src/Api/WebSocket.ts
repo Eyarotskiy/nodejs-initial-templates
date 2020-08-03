@@ -1,6 +1,7 @@
 import openSocket from 'socket.io-client';
 import {DishUpdateData, IDish} from 'common/types';
-const socket = openSocket('http://localhost:8000', {transports: ['websocket']});
+import {getAppUrl} from 'common/utils';
+const socket = openSocket(`${getAppUrl()}:8000`, {transports: ['websocket']});
 
 export default class WebSocket {
 	constructor() {

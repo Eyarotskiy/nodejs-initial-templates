@@ -9,6 +9,12 @@ export const formatDate = (date: Date): string => {
 		('0' + date.getMinutes()).slice(-2);
 };
 
+export const getAppUrl = () => {
+	return process.env.NODE_ENV === 'production' ?
+		'https://shrouded-mountain-78571.herokuapp.com' :
+		'http://localhost';
+};
+
 export const initGoogleAnalytics = () => {
 	ReactGA.initialize('UA-82338925-1');
 };
