@@ -5,6 +5,7 @@
   - **Heroku**
   - **MongoDB + Mongoose**
   - **WebSockets**
+  - **Google Analytics**
 
 ### NPM commands
   

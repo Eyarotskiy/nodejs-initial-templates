@@ -1,3 +1,5 @@
+import ReactGA from 'react-ga';
+
 export const formatDate = (date: Date): string => {
 	date = new Date(date);
 	return ('0' + date.getDate()).slice(-2) + '-' +
@@ -5,4 +7,22 @@ export const formatDate = (date: Date): string => {
 		date.getFullYear() + ' ' +
 		('0' + date.getHours()).slice(-2) + ':' +
 		('0' + date.getMinutes()).slice(-2);
+};
+
+export const initGoogleAnalytics = () => {
+	ReactGA.initialize('UA-82338925-1');
+};
+
+export const trackPageView = (page: string) => {
+	ReactGA.pageview(page);
+};
+
+export const trackEvent = (categoryName: string, eventName: string) => {
+	ReactGA.event({
+		category: categoryName,
+		action: eventName,
+		label: 'labelName',
+		value: 10,
+		nonInteraction: false,
+	});
 };

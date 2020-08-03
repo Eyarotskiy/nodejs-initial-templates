@@ -31,7 +31,7 @@ const FileUpload = () => {
 	return (
 		<div className="FileUpload">
 			<h2 className="title">File Upload</h2>
-			<form>
+			<form className="form">
 				<label htmlFor="file-upload" className="btn btn-grey">
 					Select file to upload
 				</label>

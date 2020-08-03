@@ -2,14 +2,18 @@
 
 .FileUpload {
   text-align: center;
-}
 
-.file-name {
-  color: $text-white;
-  text-decoration: underline;
-}
+  .file-name {
+    color: $text-white;
+    text-decoration: underline;
+  }
 
-.uploaded-img {
-  display: block;
-  margin: 20px auto;
+  .uploaded-img {
+    display: block;
+    margin: 20px auto;
+  }
+
+  .form {
+    display: inline-block;
+  }
 }
