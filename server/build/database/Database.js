@@ -121,6 +121,19 @@ var Database = /** @class */ (function () {
             });
         });
     };
+    Database.clearMenu = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    return [2 /*return*/, Database.menuModel.deleteMany({})];
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
     Database.getMenu = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

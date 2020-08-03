@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
+var fs_1 = __importDefault(require("fs"));
 var constants_1 = require("../common/constants");
 var Database_1 = __importDefault(require("../database/Database"));
 var Api = /** @class */ (function () {
@@ -50,6 +51,8 @@ var Api = /** @class */ (function () {
         app.post('/api/dish/save', Api.handleDishSaveRequest);
         app.post('/api/dish/update', Api.handleDishUpdateRequest);
         app.post('/api/dish/delete', Api.handleDishDeleteRequest);
+        app.post('/api/menu/clear', Api.handleMenuClearRequest);
+        app.post('/file/upload', Api.handleFileUploadRequest);
         app.get('/*', Api.handleRootRequest);
     };
     Api.handleDishSaveRequest = function (req, res) {
@@ -63,7 +66,7 @@ var Api = /** @class */ (function () {
                         return [4 /*yield*/, Database_1.default.saveDish(dishName)];
                     case 1:
                         savedDish = _a.sent();
-                        Api.sendSuccess(res, constants_1.SuccessMessage.DISH_SAVE, savedDish);
+                        Api.sendSuccess(res, savedDish);
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _a.sent();
@@ -76,20 +79,19 @@ var Api = /** @class */ (function () {
     };
     Api.handleDishUpdateRequest = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var oldDishName, newDishName, updatedDish, error_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, oldDishName, newDishName, updatedDish, error_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        oldDishName = req.body.oldDishName;
-                        newDishName = req.body.newDishName;
+                        _b.trys.push([0, 2, , 3]);
+                        _a = req.body, oldDishName = _a.oldDishName, newDishName = _a.newDishName;
                         return [4 /*yield*/, Database_1.default.updateDish(oldDishName, newDishName)];
                     case 1:
-                        updatedDish = _a.sent();
-                        Api.sendSuccess(res, constants_1.SuccessMessage.DISH_UPDATE, updatedDish);
+                        updatedDish = _b.sent();
+                        Api.sendSuccess(res, updatedDish);
                         return [3 /*break*/, 3];
                     case 2:
-                        error_2 = _a.sent();
+                        error_2 = _b.sent();
                         Api.sendError(res, 400, error_2);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -108,7 +110,7 @@ var Api = /** @class */ (function () {
                         return [4 /*yield*/, Database_1.default.deleteDish(dishName)];
                     case 1:
                         deletedDish = _a.sent();
-                        Api.sendSuccess(res, constants_1.SuccessMessage.DISH_REMOVE, deletedDish);
+                        Api.sendSuccess(res, deletedDish);
                         return [3 /*break*/, 3];
                     case 2:
                         error_3 = _a.sent();
@@ -119,9 +121,30 @@ var Api = /** @class */ (function () {
             });
         });
     };
+    Api.handleMenuClearRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, Database_1.default.clearMenu()];
+                    case 1:
+                        result = _a.sent();
+                        Api.sendSuccess(res, result);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_4 = _a.sent();
+                        Api.sendError(res, 400, error_4);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Api.handleMenuGetRequest = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var menu, error_4;
+            var menu, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -129,11 +152,40 @@ var Api = /** @class */ (function () {
                         return [4 /*yield*/, Database_1.default.getMenu()];
                     case 1:
                         menu = _a.sent();
-                        res.json(menu);
+                        Api.sendSuccess(res, menu);
                         return [3 /*break*/, 3];
                     case 2:
-                        error_4 = _a.sent();
-                        Api.sendError(res, 400, error_4);
+                        error_5 = _a.sent();
+                        Api.sendError(res, 400, error_5);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Api.handleFileUploadRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var file, destinationPath, result, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        if (!fs_1.default.existsSync(constants_1.SERVER_STATIC_FILES_DIRECTORY)) {
+                            fs_1.default.mkdirSync(constants_1.SERVER_STATIC_FILES_DIRECTORY);
+                        }
+                        file = req.files.file;
+                        destinationPath = path_1.default.join(constants_1.SERVER_STATIC_FILES_DIRECTORY, '/', file.name);
+                        return [4 /*yield*/, file.mv(destinationPath)];
+                    case 1:
+                        _a.sent();
+                        result = {
+                            url: req.protocol + "://" + req.get('host') + "/" + file.name,
+                        };
+                        Api.sendSuccess(res, result);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_6 = _a.sent();
+                        Api.sendError(res, 500, error_6);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -147,20 +199,22 @@ var Api = /** @class */ (function () {
                     res.sendFile(path_1.default.join(constants_1.CLIENT_BUILD_DIRECTORY, 'index.html'));
                 }
                 catch (error) {
-                    console.log(error);
-                    res.status(400).send('error');
+                    Api.sendError(res, 400, error);
                 }
                 return [2 /*return*/];
             });
         });
     };
-    Api.sendSuccess = function (res, message, data) {
-        var code = 200;
-        var response = { code: code, message: message, data: data };
-        res.status(code).send(response);
+    Api.sendSuccess = function (res, data) {
+        if (data === void 0) { data = {}; }
+        res.status(200).json(data);
     };
-    Api.sendError = function (res, code, message) {
-        var response = { code: code, message: message };
+    Api.sendError = function (res, code, error) {
+        var response = {
+            code: code,
+            message: error.message,
+            stack: error.stack,
+        };
         res.status(code).send(response);
     };
     return Api;
