@@ -4,6 +4,7 @@ import { MONGO_URI } from '../common/constants';
 
 export default class Database {
 	static menuModel = model.menu;
+	static usersModel = model.users;
 
 	static async connect(): Promise<void> {
 		try {
@@ -62,6 +63,34 @@ export default class Database {
 	static async getMenu(): Promise<Document[]> {
 		try {
 			return Database.menuModel.find();
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
+	static async saveUser(login: string, password: string): Promise<Document[]> {
+		try {
+			const usersModel: any = new model.users();
+			usersModel.login = login;
+			usersModel.password = password;
+
+			return await usersModel.save();
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
+	static async getUsers(): Promise<Document[]> {
+		try {
+			return Database.usersModel.find();
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
+	static async findUser(login: string): Promise<Document|null> {
+		try {
+			return Database.usersModel.findOne({login});
 		} catch (e) {
 			throw new Error(e);
 		}

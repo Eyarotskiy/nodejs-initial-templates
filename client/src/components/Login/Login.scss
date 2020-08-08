@@ -1,0 +1,43 @@
+@import "../../common/variables";
+
+.Login {
+  .info {
+    color: $text-white;
+    text-align: center;
+    text-shadow: $text-shadow;
+
+    .status {
+      margin-left: 5px;
+      padding: 5px 10px;
+
+      &.success {
+        background-color: $bg-success;
+      }
+
+      &.warning {
+        background-color: $bg-warning;
+      }
+    }
+  }
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    margin: 15px auto;
+    max-width: 300px;
+
+    input {
+      margin: 5px 0;
+      padding: 5px;
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+
+    .btn {
+      margin: 0 10px;
+    }
+  }
+}

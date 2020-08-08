@@ -5,6 +5,7 @@ import fs from 'fs';
 import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
 import Database from '../database/Database';
 import {IApiResponse} from '../common/types';
+const jwt = require('jsonwebtoken');
 
 export default class Api {
 	static initApiRequests(app: Application) {
@@ -14,7 +15,11 @@ export default class Api {
 		app.post('/api/dish/delete', Api.handleDishDeleteRequest);
 		app.post('/api/menu/clear', Api.handleMenuClearRequest);
 		app.get('/api/data/get', Api.handleDataGetRequest);
+		app.get('/api/users/get', Api.handleUsersGetRequest);
 		app.post('/file/upload', Api.handleFileUploadRequest);
+		app.post('/login', Api.handleLoginRequest);
+		app.get('/authenticate', Api.handleAuthenticateRequest);
+		app.post('/register', Api.handleRegisterRequest);
 		app.get('/*', Api.handleRootRequest);
 	}
 
@@ -75,6 +80,16 @@ export default class Api {
 		}
 	}
 
+	private static async handleUsersGetRequest(req: Request, res:Response): Promise<void> {
+		try {
+			const response = await Database.getUsers();
+			console.log(response);
+			Api.sendSuccess(res, response);
+		} catch (error) {
+			Api.sendError(res, 400, error);
+		}
+	}
+
 	private static async handleFileUploadRequest(req: any, res:Response): Promise<void> {
 		try {
 			if (!fs.existsSync(SERVER_STATIC_FILES_DIRECTORY)) {
@@ -87,6 +102,68 @@ export default class Api {
 				url: `${req.protocol}://${req.get('host')}/${file.name}`,
 			};
 			Api.sendSuccess(res, result);
+		} catch (error) {
+			Api.sendError(res, 500, error);
+		}
+	}
+
+	private static async handleLoginRequest(req: Request, res: Response): Promise<void> {
+		try {
+			let response;
+			const {login, password} = req.body;
+
+			/*if (login !== 'user' || password !== '1111') {
+				response = {
+					status: false,
+					message: 'Incorrect login or password!',
+				};
+				res.status(200).json(response);
+			}*/
+
+			const user = {name: login};
+			const secret = 'secret';
+			const expiration = {'expiresIn': '1m'};
+			const token = await jwt.sign(user, secret, expiration);
+
+			response = {
+				token: token,
+			};
+			Api.sendSuccess(res, response);
+		} catch (error) {
+			Api.sendError(res, 500, error);
+		}
+	}
+
+	private static async handleAuthenticateRequest(req: Request, res: Response): Promise<void> {
+		try {
+			console.log(req.headers['auth-token']);
+
+			const response = {
+				success: true,
+			};
+			Api.sendSuccess(res, response);
+		} catch (error) {
+			Api.sendError(res, 500, error);
+		}
+	}
+
+	private static async handleRegisterRequest(req: Request, res: Response): Promise<void> {
+		try {
+			const {login, password} = req.body;
+			const response = {
+				userExists: false,
+				users: {},
+			};
+
+			const userExists = await Database.findUser(login);
+
+			if (userExists) {
+				response.userExists = true;
+				Api.sendSuccess(res, response);
+			} else {
+				response.users = await Database.getUsers();
+				Api.sendSuccess(res, response);
+			}
 		} catch (error) {
 			Api.sendError(res, 500, error);
 		}

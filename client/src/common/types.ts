@@ -8,6 +8,17 @@ export interface IDish {
 	name: string,
 }
 
+export type LoginForm = {
+	login: 	LoginField,
+	password: PasswordField,
+}
+
+export type LoginField = string;
+
+export type PasswordField = string;
+
+export type Token = string;
+
 export type DishName = {
 	dishName: string,
 }

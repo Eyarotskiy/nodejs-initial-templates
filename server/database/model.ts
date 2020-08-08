@@ -9,6 +9,16 @@ const menu: Schema<Menu> = new Schema({
 	},
 });
 
+const users: Schema<Menu> = new Schema({
+	login: String,
+	password: String,
+	creation_date: {
+		type: Date,
+		default: Date.now,
+	},
+});
+
 export const model = {
 	menu: mongoose.model('menus', menu),
+	users: mongoose.model('users', users),
 };
