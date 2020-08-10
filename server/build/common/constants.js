@@ -9,8 +9,7 @@ var path_1 = __importDefault(require("path"));
 exports.APP_DIRECTORY = path_1.default.dirname(require.main.filename);
 exports.PORT = 5000;
 exports.WEBSOCKET_PORT = 8000;
-//@ts-ignore
-exports.MONGO_URI = process.env.MONGO_URI_LOCAL || process.env.MONGO_URI;
+exports.MONGO_URI = 'mongodb+srv://new_user:1111@cluster0-u2k69.mongodb.net/Food?retryWrites=true&w=majority';
 //@ts-ignore
 exports.CLIENT_BUILD_DIRECTORY = process.env.NODE_ENV === 'local' ?
     path_1.default.join(exports.APP_DIRECTORY, '../client/build') :

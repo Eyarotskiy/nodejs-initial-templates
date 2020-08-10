@@ -147,7 +147,54 @@ var Database = /** @class */ (function () {
             });
         });
     };
+    Database.saveUser = function (login, password) {
+        return __awaiter(this, void 0, void 0, function () {
+            var usersModel, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        usersModel = new model_1.model.users();
+                        usersModel.login = login;
+                        usersModel.password = password;
+                        return [4 /*yield*/, usersModel.save()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2:
+                        e_2 = _a.sent();
+                        throw new Error(e_2);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Database.getUsers = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    return [2 /*return*/, Database.usersModel.find()];
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    Database.findUser = function (login) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                try {
+                    return [2 /*return*/, Database.usersModel.findOne({ login: login })];
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
     Database.menuModel = model_1.model.menu;
+    Database.usersModel = model_1.model.users;
     return Database;
 }());
 exports.default = Database;

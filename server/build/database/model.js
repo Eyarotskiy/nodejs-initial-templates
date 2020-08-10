@@ -28,6 +28,15 @@ var menu = new mongoose_1.Schema({
         default: Date.now,
     },
 });
+var users = new mongoose_1.Schema({
+    login: String,
+    password: String,
+    creation_date: {
+        type: Date,
+        default: Date.now,
+    },
+});
 exports.model = {
     menu: mongoose_1.default.model('menus', menu),
+    users: mongoose_1.default.model('users', users),
 };

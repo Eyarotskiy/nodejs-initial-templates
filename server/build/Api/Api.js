@@ -40,9 +40,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
+var axios_1 = __importDefault(require("axios"));
 var fs_1 = __importDefault(require("fs"));
 var constants_1 = require("../common/constants");
 var Database_1 = __importDefault(require("../database/Database"));
+var jwt = require('jsonwebtoken');
 var Api = /** @class */ (function () {
     function Api() {
     }
@@ -52,7 +54,12 @@ var Api = /** @class */ (function () {
         app.post('/api/dish/update', Api.handleDishUpdateRequest);
         app.post('/api/dish/delete', Api.handleDishDeleteRequest);
         app.post('/api/menu/clear', Api.handleMenuClearRequest);
+        app.get('/api/data/get', Api.handleDataGetRequest);
+        app.get('/api/users/get', Api.handleUsersGetRequest);
         app.post('/file/upload', Api.handleFileUploadRequest);
+        app.post('/login', Api.handleLoginRequest);
+        app.get('/authenticate', Api.handleAuthenticateRequest);
+        app.post('/register', Api.handleRegisterRequest);
         app.get('/*', Api.handleRootRequest);
     };
     Api.handleDishSaveRequest = function (req, res) {
@@ -163,9 +170,52 @@ var Api = /** @class */ (function () {
             });
         });
     };
+    Api.handleDataGetRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, axios_1.default.get('https://jsonplaceholder.typicode.com/users')];
+                    case 1:
+                        response = _a.sent();
+                        Api.sendSuccess(res, response.data);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_6 = _a.sent();
+                        Api.sendError(res, 400, error_6);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Api.handleUsersGetRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_7;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, Database_1.default.getUsers()];
+                    case 1:
+                        response = _a.sent();
+                        console.log(response);
+                        Api.sendSuccess(res, response);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_7 = _a.sent();
+                        Api.sendError(res, 400, error_7);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Api.handleFileUploadRequest = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var file, destinationPath, result, error_6;
+            var file, destinationPath, result, error_8;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -184,10 +234,93 @@ var Api = /** @class */ (function () {
                         Api.sendSuccess(res, result);
                         return [3 /*break*/, 3];
                     case 2:
-                        error_6 = _a.sent();
-                        Api.sendError(res, 500, error_6);
+                        error_8 = _a.sent();
+                        Api.sendError(res, 500, error_8);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Api.handleLoginRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, _a, login, password, user, secret, expiration, token, error_9;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        response = void 0;
+                        _a = req.body, login = _a.login, password = _a.password;
+                        user = { name: login };
+                        secret = 'secret';
+                        expiration = { 'expiresIn': '1m' };
+                        return [4 /*yield*/, jwt.sign(user, secret, expiration)];
+                    case 1:
+                        token = _b.sent();
+                        response = {
+                            token: token,
+                        };
+                        Api.sendSuccess(res, response);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_9 = _b.sent();
+                        Api.sendError(res, 500, error_9);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Api.handleAuthenticateRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                try {
+                    console.log(req.headers['auth-token']);
+                    response = {
+                        success: true,
+                    };
+                    Api.sendSuccess(res, response);
+                }
+                catch (error) {
+                    Api.sendError(res, 500, error);
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    Api.handleRegisterRequest = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, login, password, response, userExists, _b, error_10;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 5, , 6]);
+                        _a = req.body, login = _a.login, password = _a.password;
+                        response = {
+                            userExists: false,
+                            users: {},
+                        };
+                        return [4 /*yield*/, Database_1.default.findUser(login)];
+                    case 1:
+                        userExists = _c.sent();
+                        if (!userExists) return [3 /*break*/, 2];
+                        response.userExists = true;
+                        Api.sendSuccess(res, response);
+                        return [3 /*break*/, 4];
+                    case 2:
+                        _b = response;
+                        return [4 /*yield*/, Database_1.default.getUsers()];
+                    case 3:
+                        _b.users = _c.sent();
+                        Api.sendSuccess(res, response);
+                        _c.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
+                        error_10 = _c.sent();
+                        Api.sendError(res, 500, error_10);
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
