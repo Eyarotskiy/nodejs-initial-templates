@@ -1,5 +1,5 @@
 import Database from '../database/Database';
-import {DishUpdateData} from '../common/types';
+import {IDishUpdateData} from '../common/types';
 
 export default class WebSocket {
 	client: any;
@@ -24,7 +24,7 @@ export default class WebSocket {
 		this.client.on('saveDish',
 			(dishCreateName: string) => void this.saveDish(dishCreateName));
 		this.client.on('updateDish',
-			(payload: DishUpdateData) => void this.updateDish(payload));
+			(payload: IDishUpdateData) => void this.updateDish(payload));
 		this.client.on('deleteDish',
 			(dishDeleteName: string) => void this.deleteDish(dishDeleteName));
 
@@ -71,7 +71,7 @@ export default class WebSocket {
 		}
 	}
 
-	async updateDish(payload: DishUpdateData) {
+	async updateDish(payload: IDishUpdateData) {
 		try {
 			const {oldDishName, newDishName} = payload;
 			await Database.updateDish(oldDishName, newDishName);

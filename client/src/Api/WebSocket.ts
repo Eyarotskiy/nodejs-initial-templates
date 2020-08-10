@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-import {DishUpdateData, IDish} from 'common/types';
+import {IDishUpdateData, IDish} from 'common/types';
 import {getAppUrl} from 'common/utils';
 const socket = openSocket(`${getAppUrl()}:8000`, {transports: ['websocket']});
 
@@ -28,7 +28,7 @@ export default class WebSocket {
 		socket.emit('saveDish', dishCreateName);
 	}
 
-	updateDish(payload: DishUpdateData) {
+	updateDish(payload: IDishUpdateData) {
 		socket.emit('updateDish', payload);
 	}
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import './Menu.scss';
 import {formatDate} from 'common/utils';
-import {IDish, MenuProps} from 'common/types';
+import {IDish, IMenuProps} from 'common/types';
 
-const Menu = (props: MenuProps)  => {return (
+const Menu = (props: IMenuProps)  => {return (
 		<div className="Menu">
 			<table className="menu-table">
 				<thead>

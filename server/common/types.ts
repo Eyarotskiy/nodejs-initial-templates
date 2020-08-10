@@ -13,7 +13,7 @@ export interface IDish {
 	name: string,
 }
 
-export type DishUpdateData = {
+export interface IDishUpdateData {
 	oldDishName: string,
 	newDishName: string,
 }

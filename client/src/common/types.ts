@@ -1,6 +1,12 @@
-export type MenuProps = {
+export type LoginField = string;
+
+export type PasswordField = string;
+
+export type Token = string;
+
+export interface IMenuProps {
 	menu: Array<IDish>,
-};
+}
 
 export interface IDish {
 	_id: string,
@@ -8,22 +14,16 @@ export interface IDish {
 	name: string,
 }
 
-export type LoginForm = {
+export interface ILoginForm {
 	login: 	LoginField,
 	password: PasswordField,
 }
 
-export type LoginField = string;
-
-export type PasswordField = string;
-
-export type Token = string;
-
-export type DishName = {
+export interface IDishName {
 	dishName: string,
 }
 
-export type DishUpdateData = {
+export interface IDishUpdateData {
 	oldDishName: string,
 	newDishName: string,
 }
