@@ -6,6 +6,7 @@ import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/c
 import Database from '../database/Database';
 import {IApiResponse, IUser} from '../common/types';
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 export default class Api {
 	static initApiRequests(app: Application) {
@@ -151,6 +152,8 @@ export default class Api {
 	private static async handleRegisterRequest(req: Request, res: Response): Promise<void> {
 		try {
 			const {login, password} = req.body;
+			const saltRounds = 10;
+			const hash = await bcrypt.hash(password, saltRounds);
 			const response = {
 				userExists: false,
 				users: {},
@@ -162,7 +165,7 @@ export default class Api {
 				response.userExists = true;
 				Api.sendSuccess(res, response);
 			} else {
-				await Database.saveUser(login, password);
+				await Database.saveUser(login, hash);
 				response.users = Api.extractUserNames(await Database.getUsers());
 				Api.sendSuccess(res, response);
 			}
