@@ -1,5 +1,3 @@
-export type Menu = Array<IDish>;
-
 export interface IApiResponse {
 	code: number,
 	message: string,
@@ -16,4 +14,11 @@ export interface IDish {
 export interface IDishUpdateData {
 	oldDishName: string,
 	newDishName: string,
+}
+
+export interface IUser {
+	_id: string,
+	creation_date: Date,
+	login: string,
+	password: string,
 }

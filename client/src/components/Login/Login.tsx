@@ -13,7 +13,7 @@ const Login = () => {
 	useEffect(() => {
 		const initRequest = async () => {
 			const response = await Api.getUsers();
-			console.log(response);
+			updateUsers(response.data.users);
 		};
 
 		initRequest();
@@ -33,8 +33,7 @@ const Login = () => {
 		try {
 			const payload = {login, password};
 			const response = await Api.registerUser(payload);
-
-			console.log(response);
+			updateUsers(response.data.users);
 		} catch (e) {
 			console.error(e);
 		}
@@ -95,10 +94,12 @@ const Login = () => {
 					</button>
 				</div>
 			</form>
-			<div>
-				Registered users:
+			<div className="users-list">
+				<h3 className="users-title">Registered users:</h3>
 				{users.map((user, index) => (
-					<span key={index}>{user}, </span>
+					<span key={index} className="users-name">
+						{user}{index !== users.length - 1 && ', '}
+					</span>
 				))}
 			</div>
 		</div>

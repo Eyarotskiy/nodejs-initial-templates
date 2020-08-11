@@ -4,7 +4,7 @@ import { Application, Request, Response } from 'express';
 import fs from 'fs';
 import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
 import Database from '../database/Database';
-import {IApiResponse} from '../common/types';
+import {IApiResponse, IUser} from '../common/types';
 const jwt = require('jsonwebtoken');
 
 export default class Api {
@@ -82,8 +82,9 @@ export default class Api {
 
 	private static async handleUsersGetRequest(req: Request, res:Response): Promise<void> {
 		try {
-			const response = await Database.getUsers();
-			console.log(response);
+			const response = {
+				users: Api.extractUserNames(await Database.getUsers()),
+			};
 			Api.sendSuccess(res, response);
 		} catch (error) {
 			Api.sendError(res, 400, error);
@@ -161,7 +162,8 @@ export default class Api {
 				response.userExists = true;
 				Api.sendSuccess(res, response);
 			} else {
-				response.users = await Database.getUsers();
+				await Database.saveUser(login, password);
+				response.users = Api.extractUserNames(await Database.getUsers());
 				Api.sendSuccess(res, response);
 			}
 		} catch (error) {
@@ -189,5 +191,9 @@ export default class Api {
 		};
 
 		res.status(code).send(response);
+	}
+
+	private static extractUserNames(users: IUser[]): string[] {
+		return users.map((user) => user.login);
 	}
 }

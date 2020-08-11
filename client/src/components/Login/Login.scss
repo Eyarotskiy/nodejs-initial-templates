@@ -40,4 +40,20 @@
       margin: 0 10px;
     }
   }
+
+  .users-list {
+    color: $text-white;
+    text-align: center;
+    text-shadow: $text-shadow;
+  }
+
+  .users-title {
+    margin-bottom: 5px;
+    text-shadow: $text-shadow;
+  }
+
+  .users-name {
+    color: $text-nav;
+    font-weight: 700;
+  }
 }

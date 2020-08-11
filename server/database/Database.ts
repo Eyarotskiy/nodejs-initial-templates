@@ -80,7 +80,7 @@ export default class Database {
 		}
 	}
 
-	static async getUsers(): Promise<Document[]> {
+	static async getUsers(): Promise<any> {
 		try {
 			return Database.usersModel.find();
 		} catch (e) {

@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
-import { Menu } from '../common/types';
+import {IDish, IUser} from '../common/types';
 
-const menu: Schema<Menu> = new Schema({
+const menu: Schema<IDish[]> = new Schema({
 	name: String,
 	creation_date: {
 		type: Date,
@@ -9,7 +9,7 @@ const menu: Schema<Menu> = new Schema({
 	},
 });
 
-const users: Schema<Menu> = new Schema({
+const users: Schema<IUser[]> = new Schema({
 	login: String,
 	password: String,
 	creation_date: {

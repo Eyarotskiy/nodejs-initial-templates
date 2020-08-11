@@ -6,8 +6,8 @@ export const APP_DIRECTORY: string = path.dirname(require.main.filename);
 export const PORT: number = 5000;
 export const WEBSOCKET_PORT: number = 8000;
 
-export const MONGO_URI: string =
-	'mongodb+srv://new_user:1111@cluster0-u2k69.mongodb.net/Food?retryWrites=true&w=majority';
+//@ts-ignore
+export const MONGO_URI: string = process.env.MONGO_URI_LOCAL || process.env.MONGO_URI;
 
 //@ts-ignore
 export const CLIENT_BUILD_DIRECTORY: string =
