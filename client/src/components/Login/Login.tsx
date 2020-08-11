@@ -6,9 +6,13 @@ const Login = () => {
 	let token: string = '';
 
 	const [users, updateUsers] = useState([]);
+	const [loginExistsFlag, updateLoginExistsFlag] = useState(true);
+	const [passwordMatchFlag, updatePasswordMatchFlag] = useState(true);
+	const [registrationExistsFlag, updateRegistrationExistsFlag] =
+		useState(false);
 	const [login, updateLogin] = useState('');
 	const [password, updatePassword] = useState('');
-	const [isLoggedIn, updateStatus] = useState(false);
+	const [isLoggedIn, updateLoginStatus] = useState(false);
 
 	useEffect(() => {
 		const initRequest = async () => {
@@ -22,6 +26,9 @@ const Login = () => {
 
 	const onLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
 		updateLogin(e.target.value);
+		updateLoginExistsFlag(true);
+		updatePasswordMatchFlag(true);
+		updateRegistrationExistsFlag(false);
 	};
 
 	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +40,7 @@ const Login = () => {
 		try {
 			const payload = {login, password};
 			const response = await Api.registerUser(payload);
+			updateRegistrationExistsFlag(response.data.userExists);
 			updateUsers(response.data.users);
 		} catch (e) {
 			console.error(e);
@@ -42,13 +50,17 @@ const Login = () => {
 	const sendLoginRequest = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
-			const payload = {login: 'user', password: '1111'};
+			const payload = {login, password};
 			const response = await Api.loginUser(payload);
+			const {userExists, isPasswordCorrect} = response.data;
 
-			console.log(response);
-			if (response.data.token) {
-				token = response.data.token;
+			updateLoginExistsFlag(userExists);
+			if (userExists) {
+				updatePasswordMatchFlag(userExists && isPasswordCorrect);
 			}
+			/*if (response.data.token) {
+				token = response.data.token;
+			}*/
 		} catch (e) {
 			console.error(e);
 		}
@@ -77,17 +89,33 @@ const Login = () => {
 			</h3>
 			<form className="form">
 				<div className="login-container">
-					<input type="text" placeholder="Login"
-								 value={login} onChange={onLoginChange}/>
-					<input type="password" placeholder="Password"
-								 value={password} onChange={onPasswordChange}/>
+					<div className="input-container">
+						<input type="text" placeholder="Login"
+									 value={login} onChange={onLoginChange}/>
+						{
+							registrationExistsFlag &&
+							<span className="validation-msg">User already exists</span>
+						}
+						{
+							!loginExistsFlag &&
+							<span className="validation-msg">Such user doesn't exist</span>
+						}
+					</div>
+					<div className="input-container">
+						<input type="password" placeholder="Password"
+									 value={password} onChange={onPasswordChange}/>
+						{
+							!passwordMatchFlag &&
+							<span className="validation-msg">Password is not correct</span>
+						}
+					</div>
 				</div>
 				<div className="btn-container">
 					<button className="btn btn-blue" onClick={sendRegisterRequest}>
 						Register (Add user)
 					</button>
 					<button className="btn btn-blue" onClick={sendLoginRequest}>
-						Login
+						Log in
 					</button>
 					<button className="btn btn-blue" onClick={sendAuthenticateRequest}>
 						Authenticate

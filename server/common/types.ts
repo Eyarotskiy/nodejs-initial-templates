@@ -22,3 +22,14 @@ export interface IUser {
 	login: string,
 	password: string,
 }
+
+export interface IUserLoginResponse {
+	userExists: boolean,
+	isPasswordCorrect: boolean,
+	token: string|null,
+}
+
+export interface IUserRegisterResponse {
+	userExists: boolean,
+	users: string[],
+}

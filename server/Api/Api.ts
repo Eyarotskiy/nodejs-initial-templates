@@ -4,7 +4,7 @@ import { Application, Request, Response } from 'express';
 import fs from 'fs';
 import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
 import Database from '../database/Database';
-import {IApiResponse, IUser} from '../common/types';
+import {IApiResponse, IUser, IUserLoginResponse, IUserRegisterResponse} from '../common/types';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -111,8 +111,22 @@ export default class Api {
 
 	private static async handleLoginRequest(req: Request, res: Response): Promise<void> {
 		try {
-			let response;
 			const {login, password} = req.body;
+			const token = null;
+			let isPasswordCorrect = false;
+			const user = await Database.findUser(login);
+
+			if (user) {
+				isPasswordCorrect = await bcrypt.compare(password, user.password);
+			}
+
+			console.log(login);
+			console.log(user);
+			console.log(isPasswordCorrect);
+
+			/*if (isPasswordCorrect) {
+				token
+			}*/
 
 			/*if (login !== 'user' || password !== '1111') {
 				response = {
@@ -122,12 +136,17 @@ export default class Api {
 				res.status(200).json(response);
 			}*/
 
-			const user = {name: login};
+			/*const user = {name: login};
 			const secret = 'secret';
 			const expiration = {'expiresIn': '1m'};
 			const token = await jwt.sign(user, secret, expiration);
 
 			response = {
+				token: token,
+			};*/
+			const response: IUserLoginResponse = {
+				userExists: Boolean(user),
+				isPasswordCorrect: Boolean(isPasswordCorrect),
 				token: token,
 			};
 			Api.sendSuccess(res, response);
@@ -154,21 +173,16 @@ export default class Api {
 			const {login, password} = req.body;
 			const saltRounds = 10;
 			const hash = await bcrypt.hash(password, saltRounds);
-			const response = {
-				userExists: false,
-				users: {},
+			const user = await Database.findUser(login);
+
+			if (!user) await Database.saveUser(login, hash);
+
+			const response: IUserRegisterResponse = {
+				userExists: Boolean(user),
+				users: Api.extractUserNames(await Database.getUsers()),
 			};
 
-			const userExists = await Database.findUser(login);
-
-			if (userExists) {
-				response.userExists = true;
-				Api.sendSuccess(res, response);
-			} else {
-				await Database.saveUser(login, hash);
-				response.users = Api.extractUserNames(await Database.getUsers());
-				Api.sendSuccess(res, response);
-			}
+			Api.sendSuccess(res, response);
 		} catch (error) {
 			Api.sendError(res, 500, error);
 		}

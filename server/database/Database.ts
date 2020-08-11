@@ -88,7 +88,7 @@ export default class Database {
 		}
 	}
 
-	static async findUser(login: string): Promise<Document|null> {
+	static async findUser(login: string): Promise<any> {
 		try {
 			return Database.usersModel.findOne({login});
 		} catch (e) {
