@@ -41,4 +41,8 @@ export default class Api {
 	static async registerUser(payload: ILoginForm): Promise<AxiosResponse> {
 		return axios.post('/register', payload);
 	}
+
+	static setAuthHeader(token: string) {
+		axios.defaults.headers.common['auth-token'] = token;
+	}
 }

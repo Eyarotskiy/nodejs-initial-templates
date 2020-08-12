@@ -10,9 +10,10 @@ const Login = () => {
 	const [passwordMatchFlag, updatePasswordMatchFlag] = useState(true);
 	const [registrationExistsFlag, updateRegistrationExistsFlag] =
 		useState(false);
-	const [login, updateLogin] = useState('');
-	const [password, updatePassword] = useState('');
+	const [login, updateLogin] = useState('testuser');
+	const [password, updatePassword] = useState('1');
 	const [isLoggedIn, updateLoginStatus] = useState(false);
+	const [tokenError, updateTokenError] = useState('');
 
 	useEffect(() => {
 		const initRequest = async () => {
@@ -55,12 +56,15 @@ const Login = () => {
 			const {userExists, isPasswordCorrect} = response.data;
 
 			updateLoginExistsFlag(userExists);
+
 			if (userExists) {
 				updatePasswordMatchFlag(userExists && isPasswordCorrect);
 			}
-			/*if (response.data.token) {
-				token = response.data.token;
-			}*/
+
+			if (response.data.token) {
+				updateLoginStatus(true);
+				Api.setAuthHeader(response.data.token);
+			}
 		} catch (e) {
 			console.error(e);
 		}
@@ -78,13 +82,28 @@ const Login = () => {
 		}
 	};
 
+	const getMenu = async () => {
+		updateTokenError('');
+
+		try {
+			const response = await Api.getMenu();
+			console.log(response);
+		} catch (error) {
+			if (error.response && error.response.data.message.indexOf('jwt') > -1) {
+				updateTokenError(error.response.data.message);
+			} else {
+				console.error(error);
+			}
+		}
+	};
+
 	return (
 		<div className="Login">
 			<h2 className="title">Login (Json Web Token)</h2>
 			<h3 className="info">
 				Login status:
 				<span className={isLoggedIn ? "status success" : "status warning"}>
-					logged {isLoggedIn ? 'on' : 'out'}
+					logged {isLoggedIn ? 'in' : 'out'}
 				</span>
 			</h3>
 			<form className="form">
@@ -130,6 +149,20 @@ const Login = () => {
 					</span>
 				))}
 			</div>
+			{
+				isLoggedIn &&
+				<div className="btn-container">
+					<button className="btn btn-blue" onClick={getMenu}>
+						Get Menu
+					</button>
+					{
+						tokenError.length !== 0 &&
+						<span className="validation-msg">
+							Error: {tokenError}. Try to refresh the page.
+						</span>
+					}
+				</div>
+			}
 		</div>
 	);
 };

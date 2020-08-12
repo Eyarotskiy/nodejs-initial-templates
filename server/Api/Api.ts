@@ -1,10 +1,11 @@
 import path from 'path';
 import axios from 'axios';
-import { Application, Request, Response } from 'express';
+import {Application, NextFunction, Request, Response} from 'express';
 import fs from 'fs';
-import {CLIENT_BUILD_DIRECTORY, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
+import {CLIENT_BUILD_DIRECTORY, JWT_SECRET, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
 import Database from '../database/Database';
-import {IApiResponse, IUser, IUserLoginResponse, IUserRegisterResponse} from '../common/types';
+import {IApiResponse, IUserLoginResponse, IUserRegisterResponse} from '../common/types';
+import {extractUserNames} from '../common/utils';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -84,7 +85,7 @@ export default class Api {
 	private static async handleUsersGetRequest(req: Request, res:Response): Promise<void> {
 		try {
 			const response = {
-				users: Api.extractUserNames(await Database.getUsers()),
+				users: extractUserNames(await Database.getUsers()),
 			};
 			Api.sendSuccess(res, response);
 		} catch (error) {
@@ -112,7 +113,7 @@ export default class Api {
 	private static async handleLoginRequest(req: Request, res: Response): Promise<void> {
 		try {
 			const {login, password} = req.body;
-			const token = null;
+			let token = null;
 			let isPasswordCorrect = false;
 			const user = await Database.findUser(login);
 
@@ -120,30 +121,12 @@ export default class Api {
 				isPasswordCorrect = await bcrypt.compare(password, user.password);
 			}
 
-			console.log(login);
-			console.log(user);
-			console.log(isPasswordCorrect);
+			if (isPasswordCorrect) {
+				const userName = {name: login};
+				const expiration = {'expiresIn': '5s'};
+				token = await jwt.sign(userName, JWT_SECRET, expiration);
+			}
 
-			/*if (isPasswordCorrect) {
-				token
-			}*/
-
-			/*if (login !== 'user' || password !== '1111') {
-				response = {
-					status: false,
-					message: 'Incorrect login or password!',
-				};
-				res.status(200).json(response);
-			}*/
-
-			/*const user = {name: login};
-			const secret = 'secret';
-			const expiration = {'expiresIn': '1m'};
-			const token = await jwt.sign(user, secret, expiration);
-
-			response = {
-				token: token,
-			};*/
 			const response: IUserLoginResponse = {
 				userExists: Boolean(user),
 				isPasswordCorrect: Boolean(isPasswordCorrect),
@@ -179,7 +162,7 @@ export default class Api {
 
 			const response: IUserRegisterResponse = {
 				userExists: Boolean(user),
-				users: Api.extractUserNames(await Database.getUsers()),
+				users: extractUserNames(await Database.getUsers()),
 			};
 
 			Api.sendSuccess(res, response);
@@ -210,7 +193,32 @@ export default class Api {
 		res.status(code).send(response);
 	}
 
-	private static extractUserNames(users: IUser[]): string[] {
-		return users.map((user) => user.login);
+	static handleRootRequestMiddleware(
+		req: Request,
+		res: Response,
+		next: NextFunction,
+	) {
+		const exceptionUrls = ['/', '/login', '/api/users/get'];
+		const shouldPass = exceptionUrls.some((url) => req.url === url);
+
+		if (shouldPass) {
+			next();
+		} else {
+			Api.authenticateToken(req, res, next);
+		}
+	}
+
+	static authenticateToken(req: Request, res: Response, next: NextFunction) {
+		const token = req.headers['auth-token'];
+
+		const handleVerification = (err: any, user: any) => {
+			if (err) {
+				Api.sendError(res, 400, err);
+				return;
+			}
+			next();
+		};
+
+		jwt.verify(token, JWT_SECRET, handleVerification);
 	}
 }
