@@ -3,8 +3,6 @@ import './Login.scss';
 import Api from 'Api/Api';
 
 const Login = () => {
-	let token: string = '';
-
 	const [users, updateUsers] = useState([]);
 	const [loginExistsFlag, updateLoginExistsFlag] = useState(true);
 	const [passwordMatchFlag, updatePasswordMatchFlag] = useState(true);
@@ -16,12 +14,15 @@ const Login = () => {
 	const [tokenError, updateTokenError] = useState('');
 
 	useEffect(() => {
-		const initRequest = async () => {
+		const loadData = async () => {
+			const storedToken = localStorage.getItem('token');
 			const response = await Api.getUsers();
 			updateUsers(response.data.users);
+
+			if (storedToken) await sendAuthenticationRequest(storedToken);
 		};
 
-		initRequest();
+		loadData();
 	}, []);
 
 
@@ -62,23 +63,28 @@ const Login = () => {
 			}
 
 			if (response.data.token) {
-				updateLoginStatus(true);
 				Api.setAuthHeader(response.data.token);
+				localStorage.setItem('token', response.data.token);
+				updateLoginStatus(true);
 			}
 		} catch (e) {
 			console.error(e);
 		}
 	};
 
-	const sendAuthenticateRequest = async (e: FormEvent<HTMLButtonElement>) => {
+	const logOutUser = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		try {
-			console.log(token);
-			const response = await Api.authenticateUser(token);
+		localStorage.removeItem('token');
+		updateLoginStatus(false);
+	};
 
-			console.log(response);
+	const sendAuthenticationRequest = async (token: string) => {
+		try {
+			const response = await Api.authenticateUser(token);
+			updateLoginStatus(true);
+			updateLogin(response.data.login);
 		} catch (e) {
-			console.error(e);
+			console.log(`Authentication failed`);
 		}
 	};
 
@@ -107,39 +113,52 @@ const Login = () => {
 				</span>
 			</h3>
 			<form className="form">
-				<div className="login-container">
-					<div className="input-container">
-						<input type="text" placeholder="Login"
-									 value={login} onChange={onLoginChange}/>
-						{
-							registrationExistsFlag &&
-							<span className="validation-msg">User already exists</span>
-						}
-						{
-							!loginExistsFlag &&
-							<span className="validation-msg">Such user doesn't exist</span>
-						}
+				{
+					!isLoggedIn &&
+					<div>
+						<div className="login-container">
+							<div className="input-container">
+								<input type="text" placeholder="Login"
+											 value={login} onChange={onLoginChange}/>
+								{
+									registrationExistsFlag &&
+									<span className="validation-msg">User already exists</span>
+								}
+								{
+									!loginExistsFlag &&
+									<span className="validation-msg">Such user doesn't exist</span>
+								}
+							</div>
+							<div className="input-container">
+								<input type="password" placeholder="Password"
+											 value={password} onChange={onPasswordChange}/>
+								{
+									!passwordMatchFlag &&
+									<span className="validation-msg">Password is not correct</span>
+								}
+							</div>
+						</div>
+						<div className="btn-container">
+							<button className="btn btn-blue" onClick={sendRegisterRequest}>
+								Register (Add user)
+							</button>
+							<button className="btn btn-blue" onClick={sendLoginRequest}>
+								Log in
+							</button>
+						</div>
 					</div>
-					<div className="input-container">
-						<input type="password" placeholder="Password"
-									 value={password} onChange={onPasswordChange}/>
-						{
-							!passwordMatchFlag &&
-							<span className="validation-msg">Password is not correct</span>
-						}
+				}
+				{
+					isLoggedIn &&
+					<div>
+						<h4 className="welcome-msg">Welcome, <strong>{login}</strong></h4>
+						<div className="btn-container">
+							<button className="btn btn-blue" onClick={logOutUser}>
+								Log out
+							</button>
+						</div>
 					</div>
-				</div>
-				<div className="btn-container">
-					<button className="btn btn-blue" onClick={sendRegisterRequest}>
-						Register (Add user)
-					</button>
-					<button className="btn btn-blue" onClick={sendLoginRequest}>
-						Log in
-					</button>
-					<button className="btn btn-blue" onClick={sendAuthenticateRequest}>
-						Authenticate
-					</button>
-				</div>
+				}
 			</form>
 			<div className="users-list">
 				<h3 className="users-title">Registered users:</h3>

@@ -50,6 +50,17 @@
     width: 100%;
   }
 
+  .welcome-msg {
+    color: $text-white;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: $text-shadow;
+
+    strong {
+      color: $text-nav;
+    }
+  }
+
   .btn-container {
     display: flex;
     flex-wrap: wrap;

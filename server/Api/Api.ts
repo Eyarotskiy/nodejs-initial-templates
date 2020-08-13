@@ -123,7 +123,7 @@ export default class Api {
 
 			if (isPasswordCorrect) {
 				const userName = {name: login};
-				const expiration = {'expiresIn': '5s'};
+				const expiration = {'expiresIn': '1m'};
 				token = await jwt.sign(userName, JWT_SECRET, expiration);
 			}
 
@@ -140,10 +140,13 @@ export default class Api {
 
 	private static async handleAuthenticateRequest(req: Request, res: Response): Promise<void> {
 		try {
-			console.log(req.headers['auth-token']);
+			const token = req.headers['auth-token'];
+			const verification = await jwt.verify(token, JWT_SECRET);
+			const user = await Database.findUser(verification.name);
+			console.log(user);
 
 			const response = {
-				success: true,
+				login: user.login,
 			};
 			Api.sendSuccess(res, response);
 		} catch (error) {
@@ -193,7 +196,7 @@ export default class Api {
 		res.status(code).send(response);
 	}
 
-	static handleRootRequestMiddleware(
+	static applyRootRequestMiddleware(
 		req: Request,
 		res: Response,
 		next: NextFunction,
@@ -213,7 +216,7 @@ export default class Api {
 
 		const handleVerification = (err: any, user: any) => {
 			if (err) {
-				Api.sendError(res, 400, err);
+				Api.sendError(res, 401, err);
 				return;
 			}
 			next();

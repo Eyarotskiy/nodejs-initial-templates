@@ -26,7 +26,7 @@ class App {
 		app.use(express.json());
 		app.use(express.static(CLIENT_BUILD_DIRECTORY));
 		app.use(express.static(SERVER_STATIC_FILES_DIRECTORY));
-		app.use('/', Api.handleRootRequestMiddleware);
+		app.use('/', Api.applyRootRequestMiddleware);
 		app.use(fileUpload());
 	}
 
