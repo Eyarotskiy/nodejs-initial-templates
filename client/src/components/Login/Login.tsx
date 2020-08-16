@@ -83,6 +83,7 @@ const Login = () => {
 			const response = await Api.authenticateUser(token);
 			updateLoginStatus(true);
 			updateLogin(response.data.login);
+			localStorage.setItem('token', response.data.newToken);
 		} catch (e) {
 			console.log(`Authentication failed`);
 		}

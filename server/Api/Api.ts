@@ -122,9 +122,7 @@ export default class Api {
 			}
 
 			if (isPasswordCorrect) {
-				const userName = {name: login};
-				const expiration = {'expiresIn': '1m'};
-				token = await jwt.sign(userName, JWT_SECRET, expiration);
+				token = await Api.generateToken(login);
 			}
 
 			const response: IUserLoginResponse = {
@@ -143,10 +141,11 @@ export default class Api {
 			const token = req.headers['auth-token'];
 			const verification = await jwt.verify(token, JWT_SECRET);
 			const user = await Database.findUser(verification.name);
-			console.log(user);
+			const newToken = await Api.generateToken(verification.name);
 
 			const response = {
 				login: user.login,
+				newToken: newToken,
 			};
 			Api.sendSuccess(res, response);
 		} catch (error) {
@@ -223,5 +222,11 @@ export default class Api {
 		};
 
 		jwt.verify(token, JWT_SECRET, handleVerification);
+	}
+
+	private static generateToken(userName: string) {
+		const name = {name: userName};
+		const expiration = {'expiresIn': '1d'};
+		return jwt.sign(name, JWT_SECRET, expiration);
 	}
 }
