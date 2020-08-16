@@ -113,16 +113,20 @@ export default class Api {
 	private static async handleLoginRequest(req: Request, res: Response): Promise<void> {
 		try {
 			const {login, password} = req.body;
-			let token = null;
-			let isPasswordCorrect = false;
 			const user = await Database.findUser(login);
+			const isPasswordCorrect =
+				user ? await bcrypt.compare(password, user.password) : false;
+			const token =
+				user && isPasswordCorrect ?  await Api.generateToken(login) : null;
 
-			if (user) {
-				isPasswordCorrect = await bcrypt.compare(password, user.password);
+			if (!user) {
+				Api.sendError(res, 404, {message: 'Such user does not exist'});
+				return;
 			}
 
-			if (isPasswordCorrect) {
-				token = await Api.generateToken(login);
+			if (!isPasswordCorrect) {
+				Api.sendError(res, 401, {message: 'Password is not correct'});
+				return;
 			}
 
 			const response: IUserLoginResponse = {

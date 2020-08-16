@@ -51,24 +51,21 @@ const Login = () => {
 
 	const sendLoginRequest = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+		updateLoginExistsFlag(true);
+		updatePasswordMatchFlag(true);
+
 		try {
 			const payload = {login, password};
 			const response = await Api.loginUser(payload);
-			const {userExists, isPasswordCorrect} = response.data;
 
-			updateLoginExistsFlag(userExists);
-
-			if (userExists) {
-				updatePasswordMatchFlag(userExists && isPasswordCorrect);
-			}
-
-			if (response.data.token) {
-				Api.setAuthHeader(response.data.token);
-				localStorage.setItem('token', response.data.token);
-				updateLoginStatus(true);
-			}
+			Api.setAuthHeader(response.data.token);
+			localStorage.setItem('token', response.data.token);
+			updateLoginStatus(true);
 		} catch (e) {
-			console.error(e);
+			const loginError = e.response.status === 404;
+			const passwordError = e.response.status === 401;
+			updateLoginExistsFlag(!loginError);
+			updatePasswordMatchFlag(!passwordError);
 		}
 	};
 
