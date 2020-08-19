@@ -23,13 +23,10 @@ export interface IUser {
 	password: string,
 }
 
-export interface IUserLoginResponse {
-	userExists: boolean,
-	isPasswordCorrect: boolean,
+export interface IUserSignInResponse {
 	token: string|null,
 }
 
-export interface IUserRegisterResponse {
-	userExists: boolean,
+export interface IUserSignUpResponse {
 	users: string[],
 }

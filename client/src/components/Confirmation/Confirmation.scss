@@ -1,0 +1,21 @@
+@import "../../common/variables";
+
+.Confirmation {
+  text-align: center;
+
+  .status-msg {
+    color: $bg-success;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: $text-shadow;
+
+    &.error {
+      color: $text-warning;
+    }
+  }
+
+  .link {
+    text-decoration: none;
+  }
+}

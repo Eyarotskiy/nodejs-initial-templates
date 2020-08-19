@@ -36,7 +36,8 @@ export default class Database {
 			const filter = {name: oldDishName};
 			const update = {$set: {name: newDishName}};
 
-			return Database.menuModel.findOneAndUpdate(filter, update, {new: true});
+			return await Database.menuModel.findOneAndUpdate(
+				filter, update, {new: true});
 		} catch(e) {
 			throw new Error(e);
 		}
@@ -46,7 +47,7 @@ export default class Database {
 		try {
 			const filter = {name: dishName};
 
-			return Database.menuModel.findOneAndRemove(filter);
+			return await Database.menuModel.findOneAndRemove(filter);
 		} catch (e) {
 			throw new Error(e);
 		}
@@ -54,7 +55,7 @@ export default class Database {
 
 	static async clearMenu(): Promise<any> {
 		try {
-			return Database.menuModel.deleteMany({});
+			return await Database.menuModel.deleteMany({});
 		} catch (e) {
 			throw new Error(e);
 		}
@@ -62,7 +63,7 @@ export default class Database {
 
 	static async getMenu(): Promise<Document[]> {
 		try {
-			return Database.menuModel.find();
+			return await Database.menuModel.find();
 		} catch (e) {
 			throw new Error(e);
 		}
@@ -82,7 +83,7 @@ export default class Database {
 
 	static async getUsers(): Promise<any> {
 		try {
-			return Database.usersModel.find();
+			return await Database.usersModel.find();
 		} catch (e) {
 			throw new Error(e);
 		}
@@ -90,7 +91,19 @@ export default class Database {
 
 	static async findUser(login: string): Promise<any> {
 		try {
-			return Database.usersModel.findOne({login});
+			return await Database.usersModel.findOne({login});
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
+	static async confirmUser(login: string): Promise<any> {
+		try {
+			const filter = {login};
+			const update = {$set: {confirmed: true}};
+
+			return await Database.usersModel.findOneAndUpdate(
+				filter, update, {new: true});
 		} catch (e) {
 			throw new Error(e);
 		}

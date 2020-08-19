@@ -4,8 +4,9 @@ import {Application, NextFunction, Request, Response} from 'express';
 import fs from 'fs';
 import {CLIENT_BUILD_DIRECTORY, JWT_SECRET, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
 import Database from '../database/Database';
-import {IApiResponse, IUserLoginResponse, IUserRegisterResponse} from '../common/types';
+import {IApiResponse, IUserSignInResponse, IUserSignUpResponse} from '../common/types';
 import {extractUserNames} from '../common/utils';
+import Email from '../Email/Email';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -19,9 +20,9 @@ export default class Api {
 		app.get('/api/data/get', Api.handleDataGetRequest);
 		app.get('/api/users/get', Api.handleUsersGetRequest);
 		app.post('/file/upload', Api.handleFileUploadRequest);
-		app.post('/login', Api.handleLoginRequest);
+		app.post('/signIn', Api.handleSignInRequest);
 		app.get('/authenticate', Api.handleAuthenticateRequest);
-		app.post('/register', Api.handleRegisterRequest);
+		app.post('/signUp', Api.handleSignUpRequest);
 		app.get('/*', Api.handleRootRequest);
 	}
 
@@ -110,7 +111,7 @@ export default class Api {
 		}
 	}
 
-	private static async handleLoginRequest(req: Request, res: Response): Promise<void> {
+	private static async handleSignInRequest(req: Request, res: Response): Promise<void> {
 		try {
 			const {login, password} = req.body;
 			const user = await Database.findUser(login);
@@ -129,9 +130,7 @@ export default class Api {
 				return;
 			}
 
-			const response: IUserLoginResponse = {
-				userExists: Boolean(user),
-				isPasswordCorrect: Boolean(isPasswordCorrect),
+			const response: IUserSignInResponse = {
 				token: token,
 			};
 			Api.sendSuccess(res, response);
@@ -146,6 +145,7 @@ export default class Api {
 			const verification = await jwt.verify(token, JWT_SECRET);
 			const user = await Database.findUser(verification.name);
 			const newToken = await Api.generateToken(verification.name);
+			await Database.confirmUser(user.login);
 
 			const response = {
 				login: user.login,
@@ -157,17 +157,22 @@ export default class Api {
 		}
 	}
 
-	private static async handleRegisterRequest(req: Request, res: Response): Promise<void> {
+	private static async handleSignUpRequest(req: Request, res: Response): Promise<void> {
 		try {
 			const {login, password} = req.body;
 			const saltRounds = 10;
 			const hash = await bcrypt.hash(password, saltRounds);
 			const user = await Database.findUser(login);
 
-			if (!user) await Database.saveUser(login, hash);
+			if (user) {
+				Api.sendError(res, 403, {message: 'User already exists'});
+				return;
+			}
 
-			const response: IUserRegisterResponse = {
-				userExists: Boolean(user),
+			await Email.sendConfirmationEmail(login);
+			await Database.saveUser(login, hash);
+
+			const response: IUserSignUpResponse = {
 				users: extractUserNames(await Database.getUsers()),
 			};
 
@@ -204,7 +209,7 @@ export default class Api {
 		res: Response,
 		next: NextFunction,
 	) {
-		const exceptionUrls = ['/', '/login', '/api/users/get'];
+		const exceptionUrls = ['/', '/signIn', '/signUp', '/api/users/get'];
 		const shouldPass = exceptionUrls.some((url) => req.url === url);
 
 		if (shouldPass) {
@@ -228,7 +233,7 @@ export default class Api {
 		jwt.verify(token, JWT_SECRET, handleVerification);
 	}
 
-	private static generateToken(userName: string) {
+	static generateToken(userName: string) {
 		const name = {name: userName};
 		const expiration = {'expiresIn': '1d'};
 		return jwt.sign(name, JWT_SECRET, expiration);

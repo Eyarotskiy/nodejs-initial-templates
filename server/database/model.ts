@@ -12,6 +12,10 @@ const menu: Schema<IDish[]> = new Schema({
 const users: Schema<IUser[]> = new Schema({
 	login: String,
 	password: String,
+	confirmed: {
+		type: Boolean,
+		default: false,
+	},
 	creation_date: {
 		type: Date,
 		default: Date.now,

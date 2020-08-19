@@ -25,7 +25,9 @@
   - Add mLab addon in Heroku dashboard and create DB. 
   - Create **.env** file inside **server** folder and add there variables: <br/>
   `MONGO_URI_LOCAL = <URL_TO_MONGO_DB>` (DB to work locally) <br/>
-  `MONGO_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>.
+  `MONGO_URI = <URL_TO_MLAB_DB>` (DB in Heroku)<br/>
+  `EMAIL_LOGIN = <GMAIL_LOGIN>` (used for sending emails during sign up)<br/>
+  `EMAIL_PASSWORD = <GMAIL_PASSWORD>`.
   - Paste the correct openSocket link (for localhost / prod) inside client WebSocket.ts file.
   - Paste correct Google Analytics ID inside ReactGA.initialize().
   

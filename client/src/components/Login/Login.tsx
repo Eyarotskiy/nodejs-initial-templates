@@ -8,7 +8,7 @@ const Login = () => {
 	const [passwordMatchFlag, updatePasswordMatchFlag] = useState(true);
 	const [registrationExistsFlag, updateRegistrationExistsFlag] =
 		useState(false);
-	const [login, updateLogin] = useState('testuser');
+	const [login, updateLogin] = useState('test@test.com');
 	const [password, updatePassword] = useState('1');
 	const [isLoggedIn, updateLoginStatus] = useState(false);
 	const [tokenError, updateTokenError] = useState('');
@@ -37,19 +37,21 @@ const Login = () => {
 		updatePassword(e.target.value);
 	};
 
-	const sendRegisterRequest = async (e: FormEvent<HTMLButtonElement>) => {
+	const sendSignUpRequest = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+		updateRegistrationExistsFlag(false);
+
 		try {
 			const payload = {login, password};
-			const response = await Api.registerUser(payload);
-			updateRegistrationExistsFlag(response.data.userExists);
+			const response = await Api.signUpUser(payload);
 			updateUsers(response.data.users);
 		} catch (e) {
-			console.error(e);
+			const userExists = e.response.status === 403;
+			updateRegistrationExistsFlag(userExists);
 		}
 	};
 
-	const sendLoginRequest = async (e: FormEvent<HTMLButtonElement>) => {
+	const sendSignInRequest = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		updateLoginExistsFlag(true);
 		updatePasswordMatchFlag(true);
@@ -137,11 +139,11 @@ const Login = () => {
 							</div>
 						</div>
 						<div className="btn-container">
-							<button className="btn btn-blue" onClick={sendRegisterRequest}>
-								Register (Add user)
+							<button className="btn btn-blue" onClick={sendSignUpRequest}>
+								Sign Up (Add user)
 							</button>
-							<button className="btn btn-blue" onClick={sendLoginRequest}>
-								Log in
+							<button className="btn btn-blue" onClick={sendSignInRequest}>
+								Sign in
 							</button>
 						</div>
 					</div>

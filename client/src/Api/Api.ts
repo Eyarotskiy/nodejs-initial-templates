@@ -31,15 +31,15 @@ export default class Api {
 	}
 
 	static loginUser(payload: ILoginForm): Promise<AxiosResponse> {
-		return axios.post('/login', payload);
+		return axios.post('/signIn', payload);
 	}
 
 	static authenticateUser(token: Token): Promise<AxiosResponse> {
 		return axios.get('/authenticate', {headers: {'auth-token': token}});
 	}
 
-	static registerUser(payload: ILoginForm): Promise<AxiosResponse> {
-		return axios.post('/register', payload);
+	static signUpUser(payload: ILoginForm): Promise<AxiosResponse> {
+		return axios.post('/signUp', payload);
 	}
 
 	static setAuthHeader(token: string) {
