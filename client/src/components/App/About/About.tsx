@@ -1,8 +1,8 @@
 import React from 'react';
-import './About.scss';
+import 'components/App/About/About.scss';
 import {RouteComponentProps} from 'react-router';
 import {Link, Route} from 'react-router-dom';
-import AboutInner from 'components/About/AboutInner/AboutInner';
+import AboutInner from 'components/App/About/AboutInner/AboutInner';
 
 const About = (props: RouteComponentProps) => {
 	return (

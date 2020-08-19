@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import './Analytics.scss';
+import 'components/App/Home/Analytics/Analytics.scss';
 import {initGoogleAnalytics, trackEvent, trackPageView} from 'common/utils';
 
 const Analytics = () => {

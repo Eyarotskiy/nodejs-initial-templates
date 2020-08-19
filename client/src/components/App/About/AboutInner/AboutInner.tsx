@@ -1,6 +1,6 @@
 import React from 'react';
 import {RouteComponentProps} from 'react-router';
-import './AboutInner.scss';
+import 'components/App/About/AboutInner/AboutInner.scss';
 
 type RouteProps = {
 	id?: string,

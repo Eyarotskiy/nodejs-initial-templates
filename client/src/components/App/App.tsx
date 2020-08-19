@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import 'components/App/App.scss';
-import Home from 'components/Home/Home';
-import About from 'components/About/About';
-import NotFound from 'components/NotFound/NotFound';
-import Confirmation from 'components/Confirmation/Confirmation';
+import Home from 'components/App/Home/Home';
+import About from 'components/App/About/About';
+import NotFound from 'components/App/NotFound/NotFound';
+import Confirmation from 'components/App/Confirmation/Confirmation';
 
 const App = () => {
   return (

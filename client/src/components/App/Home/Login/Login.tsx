@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import './Login.scss';
+import 'components/App/Home/Login/Login.scss';
 import Api from 'Api/Api';
 
 const Login = () => {

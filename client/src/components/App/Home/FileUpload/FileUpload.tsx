@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import './FileUpload.scss';
+import 'components/App/Home/FileUpload/FileUpload.scss';
 
 const FileUpload = () => {
 	const [file, changeFile] = useState<File>();

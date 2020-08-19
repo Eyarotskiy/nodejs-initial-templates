@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import './Confirmation.scss';
+import 'components/App/Confirmation/Confirmation.scss';
 import Api from 'Api/Api';
 
 const Confirmation = () => {

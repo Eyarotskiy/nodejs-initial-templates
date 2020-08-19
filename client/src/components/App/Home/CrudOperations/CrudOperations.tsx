@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import './CrudOperations.scss';
-import Menu from 'components/CrudOperations/Menu/Menu';
+import 'components/App/Home/CrudOperations/CrudOperations.scss';
+import Menu from 'components/App/Home/CrudOperations/Menu/Menu';
 import WebSocket from 'Api/WebSocket';
 import Api from 'Api/Api';
 const webSocket = new WebSocket();

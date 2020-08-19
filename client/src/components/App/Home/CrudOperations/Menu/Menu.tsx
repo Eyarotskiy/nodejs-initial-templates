@@ -1,5 +1,5 @@
 import React from 'react';
-import './Menu.scss';
+import 'components/App/Home/CrudOperations/Menu/Menu.scss';
 import {formatDate} from 'common/utils';
 import {IDish, IMenuProps} from 'common/types';
 
