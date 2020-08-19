@@ -18,6 +18,7 @@ export interface IDishUpdateData {
 
 export interface IUser {
 	_id: string,
+	confirmed: boolean,
 	creation_date: Date,
 	login: string,
 	password: string,

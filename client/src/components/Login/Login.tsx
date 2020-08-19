@@ -5,6 +5,7 @@ import Api from 'Api/Api';
 const Login = () => {
 	const [users, updateUsers] = useState([]);
 	const [loginExistsFlag, updateLoginExistsFlag] = useState(true);
+	const [confirmationFlag, updateConfirmationFlag] = useState(true);
 	const [passwordMatchFlag, updatePasswordMatchFlag] = useState(true);
 	const [registrationExistsFlag, updateRegistrationExistsFlag] =
 		useState(false);
@@ -28,9 +29,7 @@ const Login = () => {
 
 	const onLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
 		updateLogin(e.target.value);
-		updateLoginExistsFlag(true);
-		updatePasswordMatchFlag(true);
-		updateRegistrationExistsFlag(false);
+		resetFlags();
 	};
 
 	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +38,7 @@ const Login = () => {
 
 	const sendSignUpRequest = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		updateRegistrationExistsFlag(false);
+		resetFlags();
 
 		try {
 			const payload = {login, password};
@@ -53,8 +52,7 @@ const Login = () => {
 
 	const sendSignInRequest = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		updateLoginExistsFlag(true);
-		updatePasswordMatchFlag(true);
+		resetFlags();
 
 		try {
 			const payload = {login, password};
@@ -65,8 +63,10 @@ const Login = () => {
 			updateLoginStatus(true);
 		} catch (e) {
 			const loginError = e.response.status === 404;
+			const confirmationError = e.response.status === 403;
 			const passwordError = e.response.status === 401;
 			updateLoginExistsFlag(!loginError);
+			updateConfirmationFlag(!confirmationError);
 			updatePasswordMatchFlag(!passwordError);
 		}
 	};
@@ -103,6 +103,12 @@ const Login = () => {
 		}
 	};
 
+	const resetFlags = () => {
+		updateLoginExistsFlag(true);
+		updatePasswordMatchFlag(true);
+		updateRegistrationExistsFlag(false);
+	};
+
 	return (
 		<div className="Login">
 			<h2 className="title">Login (Json Web Token)</h2>
@@ -127,6 +133,10 @@ const Login = () => {
 								{
 									!loginExistsFlag &&
 									<span className="validation-msg">Such user doesn't exist</span>
+								}
+								{
+									!confirmationFlag &&
+									<span className="validation-msg">Email is not confirmed</span>
 								}
 							</div>
 							<div className="input-container">

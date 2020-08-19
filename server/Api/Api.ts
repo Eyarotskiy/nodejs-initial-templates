@@ -119,6 +119,7 @@ export default class Api {
 				user ? await bcrypt.compare(password, user.password) : false;
 			const token =
 				user && isPasswordCorrect ?  await Api.generateToken(login) : null;
+			const isEmailConfirmed = user && user.confirmed;
 
 			if (!user) {
 				Api.sendError(res, 404, {message: 'Such user does not exist'});
@@ -127,6 +128,11 @@ export default class Api {
 
 			if (!isPasswordCorrect) {
 				Api.sendError(res, 401, {message: 'Password is not correct'});
+				return;
+			}
+
+			if (!isEmailConfirmed) {
+				Api.sendError(res, 403, {message: 'Email is not confirmed'});
 				return;
 			}
 
