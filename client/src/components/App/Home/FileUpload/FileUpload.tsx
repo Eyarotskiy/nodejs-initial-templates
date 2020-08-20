@@ -19,7 +19,7 @@ const FileUpload = () => {
 			if (file) {
 				const data = new FormData();
 				data.append('file', file);
-				const response = await axios.post('/file/upload', data);
+				const response = await axios.post('/api/file/upload', data);
 				console.log(response);
 				changeImgUrl(response.data.url)
 			}
