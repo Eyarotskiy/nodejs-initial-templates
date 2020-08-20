@@ -6,6 +6,7 @@ import DataApi from './DataApi/DataApi';
 import FileApi from './FileApi/FileApi';
 import AuthorizationApi from './AuthorizationApi/AuthorizationApi';
 import MenuApi from './MenuApi/MenuApi';
+import Log from '../Log/Log';
 const jwt = require('jsonwebtoken');
 
 export default class Api {
@@ -36,13 +37,14 @@ export default class Api {
 		res.status(200).json(data);
 	}
 
-	static sendError(res: Response, code: number, error: any): void {
+	static async sendError(res: Response, code: number, error: any) {
 		const response: IApiResponse = {
 			code,
 			message: error.message,
 			stack: error.stack,
 		};
 
+		await Log.logErrorToFile(response);
 		res.status(code).send(response);
 	}
 

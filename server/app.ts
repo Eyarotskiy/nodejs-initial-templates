@@ -3,6 +3,7 @@ import compression from 'compression';
 import express, { Application } from 'express';
 import Api from './Api/Api';
 import WebSocket from './Api/WebSocket';
+import Log from './Log/Log';
 import Database from './database/Database';
 import {CLIENT_BUILD_DIRECTORY, PORT, SERVER_STATIC_FILES_DIRECTORY, WEBSOCKET_PORT} from './common/constants';
 const fileUpload = require('express-fileupload');
@@ -17,6 +18,7 @@ class App {
 		Database.connect();
 		this.initMiddleware();
 		Api.initApiRequests(app);
+		Log.initClearErrorFileCronJob();
 		this.createPort();
 		new WebSocket(io);
 	}

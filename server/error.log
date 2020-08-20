@@ -1,0 +1,10 @@
+
+[21-08-2020 01:10]
+Code: 400.
+Message: test error.
+Stack: Error: test error
+    at C:\Users\Administrator\WebstormProjects\nodejs-initial-templates\server\Api\DataApi\DataApi.ts:22:10
+    at step (C:\Users\Administrator\WebstormProjects\nodejs-initial-templates\server\Api\DataApi\DataApi.js:33:23)
+    at Object.next (C:\Users\Administrator\WebstormProjects\nodejs-initial-templates\server\Api\DataApi\DataApi.js:14:53)
+    at fulfilled (C:\Users\Administrator\WebstormProjects\nodejs-initial-templates\server\Api\DataApi\DataApi.js:5:58)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)

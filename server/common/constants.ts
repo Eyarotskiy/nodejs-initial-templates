@@ -21,6 +21,9 @@ export const CLIENT_BUILD_DIRECTORY: string =
 export const SERVER_STATIC_FILES_DIRECTORY: string =
 	path.join(APP_DIRECTORY, '/uploadedFiles');
 
+export const ERROR_LOG_FILE_PATH: string =
+	path.join(APP_DIRECTORY, 'error.log');
+
 export enum SuccessMessage {
 	DISH_REMOVE = 'Dish was removed successfully',
 	DISH_SAVE = 'Dish was saved successfully',
