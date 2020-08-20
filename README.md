@@ -6,6 +6,9 @@
   - **MongoDB + Mongoose**
   - **WebSockets**
   - **Google Analytics**
+  - **Json Web Token**
+  - **Email**
+  - **Cron Jobs**
 
 ### NPM commands
   
