@@ -3,13 +3,13 @@ import 'components/App/Confirmation/Confirmation.scss';
 import Api from 'Api/Api';
 
 const Confirmation = () => {
-	const [statusFlag, changeStatusFlag] = useState(false);
+	const [statusFlag, setStatusFlag] = useState(false);
 
 	const confirmUser = async () => {
 		const token = new URL(window.location.href).searchParams.get('id');
 
 		if (!token) {
-			changeStatusFlag(false);
+			setStatusFlag(false);
 			return;
 		}
 
@@ -17,9 +17,9 @@ const Confirmation = () => {
 			Api.setAuthHeader(token);
 			await Api.authenticateUser(token);
 			localStorage.setItem('token', token);
-			changeStatusFlag(true);
+			setStatusFlag(true);
 		} catch (e) {
-			changeStatusFlag(false);
+			setStatusFlag(false);
 		}
 	};
 

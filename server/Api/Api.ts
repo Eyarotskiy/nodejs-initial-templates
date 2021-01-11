@@ -1,7 +1,7 @@
 import path from 'path';
 import {Application, NextFunction, Request, Response} from 'express';
 import {CLIENT_BUILD_DIRECTORY, JWT_SECRET, SERVER_STATIC_FILES_DIRECTORY} from '../common/constants';
-import {IApiResponse} from '../common/types';
+import {ApiResponse} from '../common/types';
 import DataApi from './DataApi/DataApi';
 import FileApi from './FileApi/FileApi';
 import AuthorizationApi from './AuthorizationApi/AuthorizationApi';
@@ -38,7 +38,7 @@ export default class Api {
 	}
 
 	static async sendError(res: Response, code: number, error: any) {
-		const response: IApiResponse = {
+		const response: ApiResponse = {
 			code,
 			message: error.message,
 			stack: error.stack,

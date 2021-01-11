@@ -3,22 +3,22 @@ import 'components/App/Home/Login/Login.scss';
 import Api from 'Api/Api';
 
 const Login = () => {
-	const [users, updateUsers] = useState([]);
-	const [loginExistsFlag, updateLoginExistsFlag] = useState(true);
-	const [confirmationFlag, updateConfirmationFlag] = useState(true);
-	const [passwordMatchFlag, updatePasswordMatchFlag] = useState(true);
-	const [registrationExistsFlag, updateRegistrationExistsFlag] =
+	const [users, setUsers] = useState([]);
+	const [loginExistsFlag, setLoginExistsFlag] = useState(true);
+	const [confirmationFlag, setConfirmationFlag] = useState(true);
+	const [passwordMatchFlag, setPasswordMatchFlag] = useState(true);
+	const [registrationExistsFlag, setRegistrationExistsFlag] =
 		useState(false);
-	const [login, updateLogin] = useState('test@test.com');
-	const [password, updatePassword] = useState('1');
-	const [isLoggedIn, updateLoginStatus] = useState(false);
-	const [tokenError, updateTokenError] = useState('');
+	const [login, setLogin] = useState('test@test.com');
+	const [password, setPassword] = useState('1');
+	const [isLoggedIn, setLoginStatus] = useState(false);
+	const [tokenError, setTokenError] = useState('');
 
 	useEffect(() => {
 		const loadData = async () => {
 			const storedToken = localStorage.getItem('token');
 			const response = await Api.getUsers();
-			updateUsers(response.data.users);
+			setUsers(response.data.users);
 
 			if (storedToken) await sendAuthenticationRequest(storedToken);
 		};
@@ -28,12 +28,12 @@ const Login = () => {
 
 
 	const onLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
-		updateLogin(e.target.value);
+		setLogin(e.target.value);
 		resetFlags();
 	};
 
 	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-		updatePassword(e.target.value);
+		setPassword(e.target.value);
 	};
 
 	const sendSignUpRequest = async (e: FormEvent<HTMLButtonElement>) => {
@@ -43,10 +43,10 @@ const Login = () => {
 		try {
 			const payload = {login, password};
 			const response = await Api.signUpUser(payload);
-			updateUsers(response.data.users);
+			setUsers(response.data.users);
 		} catch (e) {
 			const userExists = e.response.status === 403;
-			updateRegistrationExistsFlag(userExists);
+			setRegistrationExistsFlag(userExists);
 		}
 	};
 
@@ -60,28 +60,28 @@ const Login = () => {
 
 			Api.setAuthHeader(response.data.token);
 			localStorage.setItem('token', response.data.token);
-			updateLoginStatus(true);
+			setLoginStatus(true);
 		} catch (e) {
 			const loginError = e.response.status === 404;
 			const confirmationError = e.response.status === 403;
 			const passwordError = e.response.status === 401;
-			updateLoginExistsFlag(!loginError);
-			updateConfirmationFlag(!confirmationError);
-			updatePasswordMatchFlag(!passwordError);
+			setLoginExistsFlag(!loginError);
+			setConfirmationFlag(!confirmationError);
+			setPasswordMatchFlag(!passwordError);
 		}
 	};
 
 	const logOutUser = async (e: FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		localStorage.removeItem('token');
-		updateLoginStatus(false);
+		setLoginStatus(false);
 	};
 
 	const sendAuthenticationRequest = async (token: string) => {
 		try {
 			const response = await Api.authenticateUser(token);
-			updateLoginStatus(true);
-			updateLogin(response.data.login);
+			setLoginStatus(true);
+			setLogin(response.data.login);
 			localStorage.setItem('token', response.data.newToken);
 		} catch (e) {
 			console.log(`Authentication failed`);
@@ -89,14 +89,14 @@ const Login = () => {
 	};
 
 	const getMenu = async () => {
-		updateTokenError('');
+		setTokenError('');
 
 		try {
 			const response = await Api.getMenu();
 			console.log(response);
 		} catch (error) {
 			if (error.response && error.response.data.message.indexOf('jwt') > -1) {
-				updateTokenError(error.response.data.message);
+				setTokenError(error.response.data.message);
 			} else {
 				console.error(error);
 			}
@@ -104,9 +104,9 @@ const Login = () => {
 	};
 
 	const resetFlags = () => {
-		updateLoginExistsFlag(true);
-		updatePasswordMatchFlag(true);
-		updateRegistrationExistsFlag(false);
+		setLoginExistsFlag(true);
+		setPasswordMatchFlag(true);
+		setRegistrationExistsFlag(false);
 	};
 
 	return (

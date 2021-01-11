@@ -1,6 +1,6 @@
-import {IUser} from './types';
+import {UserData} from './types';
 
-export function extractUserNames(users: IUser[]): string[] {
+export function extractUserNames(users: UserData[]): string[] {
 	return users.filter((user) => user.confirmed).map((user) => user.login);
 }
 

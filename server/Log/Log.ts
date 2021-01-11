@@ -1,5 +1,5 @@
 import fs from 'fs';
-import {IApiResponse} from '../common/types';
+import {ApiResponse} from '../common/types';
 import {ERROR_LOG_FILE_PATH} from '../common/constants';
 import {formatDate} from '../common/utils';
 const cron = require('node-cron');
@@ -15,7 +15,7 @@ export default class Log {
 		fs.writeFileSync(ERROR_LOG_FILE_PATH, '');
 	}
 
-	static async logErrorToFile(error: IApiResponse) {
+	static async logErrorToFile(error: ApiResponse) {
 		const dateString = `\n[${formatDate()}]\n`;
 		const errorString = `Code: ${error.code}.\nMessage: ${error.message}.\n`;
 		let resultString = dateString + errorString;

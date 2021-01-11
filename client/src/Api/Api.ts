@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {IDishName, IDishUpdateData, ILoginForm, Token} from 'common/types';
+import {DishName, DishUpdateData, LoginForm, Token} from 'common/types';
 
 export default class Api {
 	static getMenu(): Promise<AxiosResponse> {
@@ -10,15 +10,15 @@ export default class Api {
 		return axios.post('/api/menu/clear');
 	}
 
-	static saveDish(payload: IDishName): Promise<AxiosResponse> {
+	static saveDish(payload: DishName): Promise<AxiosResponse> {
 		return axios.post('/api/dish/save', payload);
 	}
 
-	static updateDish(payload: IDishUpdateData): Promise<AxiosResponse> {
+	static updateDish(payload: DishUpdateData): Promise<AxiosResponse> {
 		return axios.post('/api/dish/update', payload);
 	}
 
-	static deleteDish(payload: IDishName): Promise<AxiosResponse> {
+	static deleteDish(payload: DishName): Promise<AxiosResponse> {
 		return axios.post('/api/dish/delete', payload);
 	}
 
@@ -30,7 +30,7 @@ export default class Api {
 		return axios.get('/api/users/get');
 	}
 
-	static loginUser(payload: ILoginForm): Promise<AxiosResponse> {
+	static loginUser(payload: LoginForm): Promise<AxiosResponse> {
 		return axios.post('/api/login/signIn', payload);
 	}
 
@@ -38,7 +38,7 @@ export default class Api {
 		return axios.get('/api/login/authenticate', {headers: {'auth-token': token}});
 	}
 
-	static signUpUser(payload: ILoginForm): Promise<AxiosResponse> {
+	static signUpUser(payload: LoginForm): Promise<AxiosResponse> {
 		return axios.post('/api/login/signUp', payload);
 	}
 

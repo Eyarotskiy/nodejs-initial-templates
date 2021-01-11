@@ -3,14 +3,14 @@ import axios from 'axios';
 import 'components/App/Home/FileUpload/FileUpload.scss';
 
 const FileUpload = () => {
-	const [file, changeFile] = useState<File>();
-	const [fileName, changeFileName] = useState('');
-	const [imgUrl, changeImgUrl] = useState('');
+	const [file, setFile] = useState<File>();
+	const [fileName, setFileName] = useState('');
+	const [imgUrl, setImgUrl] = useState('');
 
 	const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const file = e.target.files![0];
-		changeFile(e.target.files![0]);
-		changeFileName(file.name);
+		setFile(e.target.files![0]);
+		setFileName(file.name);
 	};
 
 	const uploadFile = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
@@ -21,7 +21,7 @@ const FileUpload = () => {
 				data.append('file', file);
 				const response = await axios.post('/api/file/upload', data);
 				console.log(response);
-				changeImgUrl(response.data.url)
+				setImgUrl(response.data.url)
 			}
 		} catch (e) {
 			console.log(e);

@@ -6,30 +6,30 @@ import Api from 'Api/Api';
 const webSocket = new WebSocket();
 
 const CrudOperations = () => {
-	const [dishCreateName, changeDishCreateName] = useState('');
-	const [dishDeleteName, changeDishDeleteName] = useState('');
-	const [dishOldUpdateName, changeDishOldUpdateName] = useState('');
-	const [dishNewUpdateName, changeDishNewUpdateName] = useState('');
-	const [menu, modifyMenu] = useState([]);
+	const [dishCreateName, setDishCreateName] = useState('');
+	const [dishDeleteName, setDishDeleteName] = useState('');
+	const [dishOldUpdateName, setDishOldUpdateName] = useState('');
+	const [dishNewUpdateName, setDishNewUpdateName] = useState('');
+	const [menu, setMenu] = useState([]);
 
 	const handleDishCreateNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		changeDishCreateName(e.target.value);
+		setDishCreateName(e.target.value);
 	};
 
 	const handleDishDeleteNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		changeDishDeleteName(e.target.value);
+		setDishDeleteName(e.target.value);
 	};
 
 	const handleDishOldUpdateNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		changeDishOldUpdateName(e.target.value);
+		setDishOldUpdateName(e.target.value);
 	};
 
 	const handleDishNewUpdateNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		changeDishNewUpdateName(e.target.value);
+		setDishNewUpdateName(e.target.value);
 	};
 
 	useEffect(() => {
-		webSocket.getMenu(modifyMenu)
+		webSocket.getMenu(setMenu)
 	}, []);
 
 	const clearMenu = () => {

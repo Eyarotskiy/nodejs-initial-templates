@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import Database from '../../database/Database';
-import {IUserSignInResponse, IUserSignUpResponse} from '../../common/types';
+import {UserSignInResponse, UserSignUpResponse} from '../../common/types';
 import {JWT_SECRET} from '../../common/constants';
 import Api from '../Api';
 import Email from '../../Email/Email';
@@ -34,7 +34,7 @@ export default class AuthorizationApi {
 				return;
 			}
 
-			const response: IUserSignInResponse = {
+			const response: UserSignInResponse = {
 				token: token,
 			};
 			Api.sendSuccess(res, response);
@@ -76,7 +76,7 @@ export default class AuthorizationApi {
 			await Email.sendConfirmationEmail(login);
 			await Database.saveUser(login, hash);
 
-			const response: IUserSignUpResponse = {
+			const response: UserSignUpResponse = {
 				users: extractUserNames(await Database.getUsers()),
 			};
 

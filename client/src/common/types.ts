@@ -4,26 +4,26 @@ export type PasswordField = string;
 
 export type Token = string;
 
-export interface IMenuProps {
-	menu: Array<IDish>,
+export interface MenuProps {
+	menu: Array<DishData>,
 }
 
-export interface IDish {
+export interface DishData {
 	_id: string,
 	creation_date: Date,
 	name: string,
 }
 
-export interface ILoginForm {
+export interface LoginForm {
 	login: 	LoginField,
 	password: PasswordField,
 }
 
-export interface IDishName {
+export interface DishName {
 	dishName: string,
 }
 
-export interface IDishUpdateData {
+export interface DishUpdateData {
 	oldDishName: string,
 	newDishName: string,
 }

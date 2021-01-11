@@ -1,22 +1,22 @@
-export interface IApiResponse {
+export interface ApiResponse {
 	code: number,
 	message: string,
 	stack?: string,
 	data?: object|null,
 }
 
-export interface IDish {
+export interface DishData {
 	_id: string,
 	creation_date: Date,
 	name: string,
 }
 
-export interface IDishUpdateData {
+export interface DishUpdateData {
 	oldDishName: string,
 	newDishName: string,
 }
 
-export interface IUser {
+export interface UserData {
 	_id: string,
 	confirmed: boolean,
 	creation_date: Date,
@@ -24,10 +24,10 @@ export interface IUser {
 	password: string,
 }
 
-export interface IUserSignInResponse {
+export interface UserSignInResponse {
 	token: string|null,
 }
 
-export interface IUserSignUpResponse {
+export interface UserSignUpResponse {
 	users: string[],
 }
